@@ -22,7 +22,8 @@ class Game(characters:List[Character]) {
 
   def filterRemaining(attribute:Int):List[Character]={
     attribute match {
-      case 1 => if(guessAbout.guessHasHair) _remainingPlayers.filter(_.hasHair) else _remainingPlayers.filterNot(_.hasHair)
+      case 1 => if(guessAbout.guessHasHair) { _remainingPlayers.filter(_.hasHair)}
+      else { _remainingPlayers.filterNot(_.hasHair) }
       case _ => _remainingPlayers
     }
   }
