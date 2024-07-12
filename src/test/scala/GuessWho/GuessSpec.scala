@@ -50,7 +50,8 @@ class GuessSpec extends FlatSpec {
 
   // Is character Male or Female
   "guessGender" should "return true if both character and guess is Male, and vice versa" in {
-    assert(guessJamie.guessGender("MALE"))
+    assert(guessJamie.guessGender("male"))
+    assert(guessJamie.guessGender("MaLe"))
     assert(!guessTom.guessGender("FEMALE"))
     assert(guessVicky.guessGender("FEMALE"))
   }
