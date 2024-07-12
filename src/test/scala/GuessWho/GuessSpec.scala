@@ -22,7 +22,7 @@ class GuessSpec extends FlatSpec {
 
   val characters: Seq[Character] = Seq(tom, jamie, vicky, jane)
 
-  val testGame: Game = new Game(characters = characters, defaultChosenCharacter = Some(jamie))
+  val testGame: GameBoard = new GameBoard(characters = characters, defaultChosenCharacter = Some(jamie))
 
   // Does Character have hair test
   "guessHasHair" should "return true if character has hair, false if they don't" in {
