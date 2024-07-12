@@ -15,7 +15,7 @@ sealed trait Gender
 case object MALE extends Gender
 case object FEMALE extends Gender
 
-
+// FUCK YESS GITHUB WORKING
 case class Character(
                       name: String,
                       hasHair: Boolean,
