@@ -12,8 +12,8 @@ import org.scalatest.FlatSpec
  hairColour: HairColour */
 
 class GuessSpec extends FlatSpec {
-  val jamie: Character = Character(name = "Jamie", hasHair = false, hasFacialHair = true, hasGlasses = true, hasHat = true, gender = Gender.MALE, eyeColour = EyeColour.BLUE, hairColour = HairColour.BLONDE)
-  val tom: Character = Character(name = "Tom", hasHair = true, hasFacialHair = false, hasGlasses = true, hasHat = false, gender = Gender.MALE, eyeColour = EyeColour.GREEN, hairColour = HairColour.BRUNETTE)
+  val jamie: Character = Character(name = "Jamie", hasHair = false, hasFacialHair = true, hasGlasses = true, hasHat = true, gender = Gender.MALE, eyeColour = EyeColour.BROWN, hairColour = HairColour.BLONDE)
+  val tom: Character = Character(name = "Tom", hasHair = true, hasFacialHair = false, hasGlasses = true, hasHat = false, gender = Gender.MALE, eyeColour = EyeColour.GREEN, hairColour = HairColour.BLONDE)
   val vicky: Character = Character(name = "Vicky", hasHair = true, hasFacialHair = false, hasGlasses = false, hasHat = true, gender = Gender.FEMALE, eyeColour = EyeColour.BROWN, hairColour = HairColour.RED)
 
   val guessJamie: Guess = new Guess(jamie)
@@ -21,7 +21,7 @@ class GuessSpec extends FlatSpec {
   val guessVicky: Guess = new Guess(vicky)
 
   val characters: Seq[Character] = Seq(jamie)
-  val characters2: Seq[Character] = Seq(tom, jamie)
+  val characters2: Seq[Character] = Seq(tom, jamie, vicky)
 
   val gameTest: Game = new Game(characters)
   val gameTest2: Game = new Game(characters2)
@@ -101,6 +101,27 @@ class GuessSpec extends FlatSpec {
     assert(gameTest2.filterRemaining(3) == Seq(tom, jamie))
     // checks for hat
     assert(gameTest.filterRemaining(4) == Seq(jamie))
-    assert(gameTest2.filterRemaining(4) == Seq(jamie))
+    assert(gameTest2.filterRemaining(4) == Seq(jamie, vicky))
+    // check for gender
+    assert(gameTest.filterRemaining(5) == Seq(jamie))
+    assert(gameTest2.filterRemaining(5) == Seq(tom, jamie))
+    // check for eye colour BLUE
+    assert(gameTest.filterRemaining(6) == Seq(jamie))
+    assert(gameTest2.filterRemaining(6) == Seq(tom, jamie, vicky))
+    // GREEN
+    assert(gameTest.filterRemaining(7) == Seq(jamie))
+    assert(gameTest2.filterRemaining(7) == Seq(jamie, vicky))
+    // BROWN
+    assert(gameTest.filterRemaining(8) == Seq(jamie))
+    assert(gameTest2.filterRemaining(8) == Seq(jamie, vicky))
+    // check for hair colour BRUNETTE
+    assert(gameTest.filterRemaining(9) == Seq(jamie))
+    assert(gameTest2.filterRemaining(9) == Seq(tom, jamie, vicky))
+    // BLONDE
+    assert(gameTest.filterRemaining(10) == Seq(jamie))
+    assert(gameTest2.filterRemaining(10) == Seq(tom,jamie))
+    // RED
+    assert(gameTest.filterRemaining(11) == Seq(jamie))
+    assert(gameTest2.filterRemaining(11) == Seq(tom,jamie))
   }
 }
