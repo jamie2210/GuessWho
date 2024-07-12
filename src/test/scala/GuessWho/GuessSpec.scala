@@ -12,7 +12,7 @@ import org.scalatest.FlatSpec
  hairColour: HairColour */
 
 class GuessSpec extends FlatSpec {
-  val jamie: Character = Character(name = "Jamie", hasHair = false, hasFacialHair = true, hasGlasses = true, hasHat = true, gender = GuessWho.Gender, eyeColour = Blue, hairColour = NONE)
+  val jamie: Character = Character(name = "Jamie", hasHair = false, hasFacialHair = true, hasGlasses = true, hasHat = true, gender = Gender.MALE, eyeColour = EyeColour.BLUE, hairColour = HairColour.BLONDE)
   "guessHasHair" should "return true if character has hair" in {
     val result:
   }
