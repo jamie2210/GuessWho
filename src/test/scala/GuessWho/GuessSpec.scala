@@ -75,4 +75,11 @@ class GuessSpec extends FlatSpec {
     assert(!guessTom.guessHairColour("RED"))
     assert(!guessVicky.guessHairColour("PURPLE"))
   }
+
+//  #######################################
+//  #               GAME LOGIC            #
+//  #######################################
+
+
+
 }
