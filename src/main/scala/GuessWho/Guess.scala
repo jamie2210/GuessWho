@@ -11,16 +11,16 @@ package GuessWho
 
 class Guess (character:Character){
 
-  def guessHasHair(guess:String): Boolean = {
+  def guessHasHair: Boolean = {
     ???
   }
-  def guessHasFacialHair(guess:String):Boolean = {
+  def guessHasFacialHair:Boolean = {
     ???
   }
-  def guessHasGlasses(guess:String): Boolean = {
+  def guessHasGlasses: Boolean = {
     ???
   }
-  def guessHasHat(guess:String): Boolean = {
+  def guessHasHat: Boolean = {
     ???
   }
 
