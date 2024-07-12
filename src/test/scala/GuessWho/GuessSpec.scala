@@ -36,16 +36,16 @@ class GuessSpec extends FlatSpec {
 
   // Does Character have glasses test
   "guessGlasses" should "return true if character has glasses, false if they don't" in {
-    assert(!guessJamie.guessHasGlasses)
+    assert(guessJamie.guessHasGlasses)
     assert(guessTom.guessHasGlasses)
-    assert(guessVicky.guessHasGlasses)
+    assert(!guessVicky.guessHasGlasses)
   }
 
   // Does Character has Hat test
   "guessHat" should "return true if character has hat, false if they don't" in {
-    assert(!guessJamie.guessHasHat)
-    assert(guessTom.guessHasHat)
-    assert(!guessVicky.guessHasHat)
+    assert(guessJamie.guessHasHat)
+    assert(!guessTom.guessHasHat)
+    assert(guessVicky.guessHasHat)
   }
 
   // Is character Male or Female

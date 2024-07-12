@@ -15,13 +15,13 @@ class Guess (character:Character){
     character.hasHair
   }
   def guessHasFacialHair:Boolean = {
-    ???
+    character.hasFacialHair
   }
   def guessHasGlasses: Boolean = {
-    ???
+    character.hasGlasses
   }
   def guessHasHat: Boolean = {
-    ???
+    character.hasHat
   }
 
 
