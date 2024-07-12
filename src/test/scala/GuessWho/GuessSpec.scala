@@ -21,7 +21,7 @@ class GuessSpec extends FlatSpec {
   val guessVicky: Guess = new Guess(vicky)
 
   val characters: List[Character] = List(jamie)
-  val characters2: List[Character] = List(tom)
+  val characters2: List[Character] = List(tom, jamie)
 
   val gameTest: Game = new Game(characters)
   val gameTest2: Game = new Game(characters2)
@@ -86,10 +86,12 @@ class GuessSpec extends FlatSpec {
 //  #               GAME LOGIC            #
 //  #######################################
 
+//  Game test to make sure of chosen player
+
   // Game tests for any character without hair and removes them
   "filterRemaining" should "remove any character without hair" in {
-    assert(gameTest.filterRemaining(1) == List.empty)
-    assert(gameTest2.filterRemaining(1) == List(tom))
+    assert(gameTest.filterRemaining(1) == List(jamie))
+    assert(gameTest2.filterRemaining(1) == List(jamie))
   }
 
 }
