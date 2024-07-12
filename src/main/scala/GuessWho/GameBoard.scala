@@ -23,6 +23,9 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
 //  Implement filtering process depending on question
   def makeGuess(question:String){???}
 
+  def getRemainingCharacters:Seq[Character] = _remainingPlayers
+
+
   def getChosenPlayer:Character = chosenCharacter
 
   def filterRemaining(attribute:Int):Seq[Character]={

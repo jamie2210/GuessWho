@@ -16,6 +16,7 @@ object GuessWho extends App{
   private val characterList:Seq[Character] = Seq(jon, tony, bill, paul, gary, steve, jess, vicky, sarah, beff)
 
   val game:GameBoard = new GameBoard(characters = characterList, defaultChosenCharacter = None)
+  private var _playersRemaining:Seq[Character] = game.getRemainingCharacters
 
 
 }
