@@ -24,7 +24,6 @@ class Guess (character:Character){
     character.hasHat
   }
 
-
   def guessGender(guess:String): Boolean = {
     guess.toLowerCase() match {
       case "male" => (character.gender == Gender.MALE)
@@ -49,5 +48,9 @@ class Guess (character:Character){
       case "brunette" => (character.hairColour == HairColour.BRUNETTE)
       case _ => false
     }
+  }
+
+  def guessName(guess: String): Boolean = {
+    guess.toLowerCase() == character.name.toLowerCase()
   }
 }

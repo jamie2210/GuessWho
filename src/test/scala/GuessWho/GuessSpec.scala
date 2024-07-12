@@ -82,6 +82,12 @@ class GuessSpec extends FlatSpec {
     assert(!guessVicky.guessHairColour("PURPLE"))
   }
 
+  // Guess name of character
+  "guessName" should "respond true or false depending on guess" in {
+    assert(guessJamie.guessName("jamie"))
+    assert(!guessJamie.guessName("tom"))
+  }
+
   //  #######################################
   //  #               GAME LOGIC            #
   //  #######################################
@@ -123,5 +129,9 @@ class GuessSpec extends FlatSpec {
     // RED
     assert(gameTest.filterRemaining(11) == Seq(jamie))
     assert(gameTest2.filterRemaining(11) == Seq(tom,jamie))
+    // GUESS NAME
+    assert(gameTest.filterRemaining(12, "jamie") == Seq(jamie))
+    assert(gameTest2.filterRemaining(12, "vicky") == Seq(tom,jamie))
+    assert(gameTest2.filterRemaining(12, "jamie") == Seq(jamie))
   }
 }

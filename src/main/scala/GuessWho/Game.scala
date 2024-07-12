@@ -44,8 +44,13 @@ class Game(characters:Seq[Character]) {
       case _ => _remainingPlayers
     }
   }
-
-
+  // Guess name
+  def filterRemaining(attribute:Int, guess:String):Seq[Character]= {
+    attribute match {
+      case 12 => if (guessAbout.guessName(guess)) Seq(chosenCharacter) else _remainingPlayers.filterNot(_.name.toLowerCase == guess.toLowerCase())
+      case _ => _remainingPlayers
+    }
+  }
 }
 
 
