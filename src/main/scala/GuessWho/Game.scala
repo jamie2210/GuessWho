@@ -3,18 +3,19 @@ import scala.util.Random
 
 
 
-class Game(characters:Seq[Character]) {
+class Game(characters:Seq[Character], defaultChosenCharacter:Option[Character]) {
 
-//  Choose random player
+//  Chose random player index
   private val randomIndex:Int = Random.nextInt(characters.length)
 
+//  For testing, use default chosen character if set
+  private val chosenCharacter:Character = defaultChosenCharacter match {
+    case Some(character) => character
+    case None => characters(randomIndex)
+  }
 
-  //  private val chosenCharacter:Character = characters(randomIndex)
-//  FOR TESTING PURPOSES
-  private val chosenCharacter:Character = characters.filter(_.name=="Jamie").head
 
-
-  val guessAbout:Guess = new Guess(chosenCharacter)
+  private val guessAbout:Guess = new Guess(chosenCharacter)
 
 //  keep track of remaining players
   private var _remainingPlayers:Seq[Character] = characters
