@@ -12,7 +12,7 @@ package GuessWho
 class Guess (character:Character){
 
   def guessHasHair: Boolean = {
-    ???
+    character.hasHair
   }
   def guessHasFacialHair:Boolean = {
     ???
