@@ -16,12 +16,12 @@ class GuessSpec extends FlatSpec {
   val tom: Character = Character(name = "Tom", hasHair = true, hasFacialHair = false, hasGlasses = true, hasHat = false, gender = Gender.MALE, eyeColour = EyeColour.GREEN, hairColour = HairColour.BRUNETTE)
   val vicky: Character = Character(name = "Vicky", hasHair = true, hasFacialHair = false, hasGlasses = false, hasHat = true, gender = Gender.FEMALE, eyeColour = EyeColour.BROWN, hairColour = HairColour.RED)
 
-  val guessJamie:  Guess = new Guess(jamie)
-  val guessTom:  Guess = new Guess(tom)
+  val guessJamie: Guess = new Guess(jamie)
+  val guessTom: Guess = new Guess(tom)
   val guessVicky: Guess = new Guess(vicky)
 
-  val characters: List[Character] = List(jamie)
-  val characters2: List[Character] = List(tom, jamie)
+  val characters: Seq[Character] = Seq(jamie)
+  val characters2: Seq[Character] = Seq(tom, jamie)
 
   val gameTest: Game = new Game(characters)
   val gameTest2: Game = new Game(characters2)
@@ -82,16 +82,25 @@ class GuessSpec extends FlatSpec {
     assert(!guessVicky.guessHairColour("PURPLE"))
   }
 
-//  #######################################
-//  #               GAME LOGIC            #
-//  #######################################
+  //  #######################################
+  //  #               GAME LOGIC            #
+  //  #######################################
 
-//  Game test to make sure of chosen player
+  //  Game test to make sure of chosen player
 
-  // Game tests for any character without hair and removes them
-  "filterRemaining" should "remove any character without hair" in {
-    assert(gameTest.filterRemaining(1) == List(jamie))
-    assert(gameTest2.filterRemaining(1) == List(jamie))
+  // Game tests for any character attribute that matches chose character
+  "filterRemaining" should "remove any character attributes that don't match chosen character" in {
+    // checks for hair
+    assert(gameTest.filterRemaining(1) == Seq(jamie))
+    assert(gameTest2.filterRemaining(1) == Seq(jamie))
+    // checks for facial hair
+    assert(gameTest.filterRemaining(2) == Seq(jamie))
+    assert(gameTest2.filterRemaining(2) == Seq(jamie))
+    // checks for glasses
+    assert(gameTest.filterRemaining(3) == Seq(jamie))
+    assert(gameTest2.filterRemaining(3) == Seq(tom, jamie))
+    // checks for hat
+    assert(gameTest.filterRemaining(4) == Seq(jamie))
+    assert(gameTest2.filterRemaining(4) == Seq(jamie))
   }
-
 }
