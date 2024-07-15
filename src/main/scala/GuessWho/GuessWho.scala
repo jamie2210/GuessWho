@@ -170,11 +170,7 @@ object GuessWho extends App{
       }
       case _ => -1
     }
-    val validGuess:Int = if (filterNumber == -1){
-      println("Invalid input. Please enter question number only")
-    check_user_guess(guess)} else filterNumber
-
-    validGuess
+    filterNumber
   }
 
   def user_turn():Boolean = {
@@ -195,6 +191,11 @@ object GuessWho extends App{
       }
     } else {
       val guessNumber:Int = check_user_guess(attribute)
+      guessNumber match {
+        case 0 => user_turn()
+        case -1 => user_turn()
+        case _ => guessNumber
+      }
       if (guessNumber == 0) user_turn()
       val filteredPlayers = game.filterRemaining(guessNumber)
       _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))}
