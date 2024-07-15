@@ -71,6 +71,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       case 82 => display_random_letter()
 
 
+
       case _ => _remainingPlayers
     }
   }

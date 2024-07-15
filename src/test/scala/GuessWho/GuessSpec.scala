@@ -137,6 +137,11 @@ class GuessSpec extends FlatSpec {
     assert(interface.validate_attribute_choice("0") == 0)
     assert(interface.validate_attribute_choice("-1") == -1)
   }
+  //  #######################################
+  //  #               EXTENSION 2           #
+  //  #######################################
+
+//  Hard to do tests will think about
 
 }
 
