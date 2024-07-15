@@ -6,7 +6,7 @@ class Interface {
 
   private var _hints:Map[Int, String] = Map(
     1 -> "remove random character",
-    2 -> "their name contains...?",
+    2 -> "their name contains letter ... ?",
     0 -> "Go back"
   )
 
@@ -161,7 +161,7 @@ class Interface {
       }
       case 8 => get_question_choice(_hints) match {
         case 0 => 0
-        case 1 => ???
+        case 1 => 81
         case 2 => ???
         case -1 => -1
       }

@@ -118,8 +118,8 @@ class GuessSpec extends FlatSpec {
     // RED
     assert(testGame.filterRemaining(11) == Seq(tom,jamie, jane))
     // GUESS NAME
-    assert(testGame.filterRemaining(12, "vicky") == Seq(tom,jamie,jane))
-    assert(testGame.filterRemaining(12, "jamie") == Seq(jamie))
+    assert(testGame.filterRemaining(12, "vicky") == (Seq(tom,jamie,jane), false))
+    assert(testGame.filterRemaining(12, "jamie") == (Seq(jamie), true))
   }
 
   //  #######################################

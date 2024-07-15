@@ -22,7 +22,18 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
 
   def getRemainingCharacters:Seq[Character] = _remainingPlayers
 
-  def getChosenPlayer:Character = chosenCharacter
+
+  def remove_random_character():Seq[Character]={
+    if (_remainingPlayers.length < 2) {
+      _remainingPlayers
+    }else{
+      val notChosenPlayers:Seq[Character] = _remainingPlayers.filterNot(_ == chosenCharacter)
+      val random_indexInt:Int = Random.nextInt(notChosenPlayers.length)
+      val playerToRemove:Character = notChosenPlayers(random_indexInt)
+      println(s"Removed: ${playerToRemove.name}")
+      _remainingPlayers.filterNot(_ == notChosenPlayers(random_indexInt))
+    }
+  }
 
   def filterRemaining(attribute:Int):Seq[Character]={
    attribute match {
@@ -41,14 +52,19 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       case 9 => if(guessAbout.guessHairColour("BRUNETTE")) _remainingPlayers.filter(_.hairColour == HairColour.BRUNETTE) else _remainingPlayers.filterNot(_.hairColour == HairColour.BRUNETTE)
       case 10 => if(guessAbout.guessHairColour("BLONDE")) _remainingPlayers.filter(_.hairColour == HairColour.BLONDE) else _remainingPlayers.filterNot(_.hairColour == HairColour.BLONDE)
       case 11 => if(guessAbout.guessHairColour("RED")) _remainingPlayers.filter(_.hairColour == HairColour.RED) else _remainingPlayers.filterNot(_.hairColour == HairColour.RED)
+
+//       Option 8 is hints therefore 81 = hint 1
+      case 81 => remove_random_character()
+
+
       case _ => _remainingPlayers
     }
   }
   // Guess name
-  def filterRemaining(attribute:Int, guess:String):Seq[Character]= {
+  def filterRemaining(attribute:Int, guess:String):(Seq[Character], Boolean)= {
     attribute match {
-      case 12 => if (guessAbout.guessName(guess)) Seq(chosenCharacter) else _remainingPlayers.filterNot(_.name.toLowerCase == guess.toLowerCase())
-      case _ => _remainingPlayers
+      case 12 => if (guessAbout.guessName(guess)) (Seq(chosenCharacter), true) else (_remainingPlayers.filterNot(_.name.toLowerCase == guess.toLowerCase()),false)
+      case _ => (_remainingPlayers, false)
     }
   }
 }

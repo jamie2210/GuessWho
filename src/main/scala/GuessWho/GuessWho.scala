@@ -33,9 +33,9 @@ object GuessWho extends App{
 
   def filter_by_name(): Seq[Character] = {
     val name: String = interface.get_name_choice()
-    val filteredPlayers = game.filterRemaining(12, name)
-    _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
-    _winner = if (_playersRemaining.length == 1) true else false
+    val filteredPlayers:(Seq[Character], Boolean) = game.filterRemaining(12, name)
+    _playersRemaining = _playersRemaining.filter(x => filteredPlayers._1.exists(_.name == x.name))
+    _winner = if (filteredPlayers._2) true else false
     _playersRemaining
   }
 
