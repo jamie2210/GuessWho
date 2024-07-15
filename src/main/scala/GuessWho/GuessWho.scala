@@ -81,10 +81,17 @@ object GuessWho extends App{
     }
   }
 
+  def get_question_choice(questions: Map[Int, String]): Int = {
+    questions.foreach {
+    case (key, value) => println(s"$key : $value")}
+5
+  }
+
 
   def user_turn() = {
     displayCharacters(_playersRemaining)
     val attribute = get_attribute_choice()
+    val questionChoice = get_question_choice(_hairQuestions)
     // attribute match {}
     // Display relevant questions - new function, takes in a map
     // remove question from map -> filterNot(key)
@@ -93,4 +100,5 @@ object GuessWho extends App{
     // gets remaining players
 
   }
+  user_turn()
 }

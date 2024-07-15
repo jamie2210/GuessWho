@@ -5,6 +5,7 @@ import scala.util.Random
 
 class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Character]) {
 
+
 //  Chose random player index
   private val randomIndex:Int = Random.nextInt(characters.length)
 
@@ -35,7 +36,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       case 2 => if(guessAbout.guessHasFacialHair) _remainingPlayers.filter(_.hasFacialHair) else _remainingPlayers.filterNot(_.hasFacialHair)
       case 3 => if(guessAbout.guessHasGlasses) _remainingPlayers.filter(_.hasGlasses) else _remainingPlayers.filterNot(_.hasGlasses)
       case 4 => if(guessAbout.guessHasHat) _remainingPlayers.filter(_.hasHat) else _remainingPlayers.filterNot(_.hasHat)
-      // Gender params
+      // Gender params+
       case 5 => if(guessAbout.guessGender("MALE")) _remainingPlayers.filter(_.gender == Gender.MALE) else _remainingPlayers.filterNot(_.gender == Gender.MALE)
       // Eye Colour params
       case 6 => if(guessAbout.guessEyeColour("BLUE")) _remainingPlayers.filter(_.eyeColour == EyeColour.BLUE) else _remainingPlayers.filterNot(_.eyeColour == EyeColour.BLUE)
