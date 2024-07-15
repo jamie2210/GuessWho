@@ -23,6 +23,7 @@ class GuessSpec extends FlatSpec {
   val characters: Seq[Character] = Seq(tom, jamie, vicky, jane)
 
   val testGame: GameBoard = new GameBoard(characters = characters, defaultChosenCharacter = Some(jamie))
+  val interface: Interface = new Interface()
 
   // Does Character have hair test
   "guessHasHair" should "return true if character has hair, false if they don't" in {
@@ -120,4 +121,17 @@ class GuessSpec extends FlatSpec {
     assert(testGame.filterRemaining(12, "vicky") == Seq(tom,jamie,jane))
     assert(testGame.filterRemaining(12, "jamie") == Seq(jamie))
   }
+
+  //  #######################################
+  //  #               EXTENSION 1           #
+  //  #######################################
+
+  "displayCharacters" should "Display list of characters and their attributes" in {
+    assert(interface.displayCharacters(characters) == println(s"Number of remaining characters: ${characters.length}"))
+  }
+
+  "get_attribute_choice" should "Display first list of character questions" in {
+    assert(interface.get_attribute_choice())
+  }
 }
+

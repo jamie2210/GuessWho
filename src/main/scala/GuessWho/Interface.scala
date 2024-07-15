@@ -58,6 +58,21 @@ class Interface {
     println(s"Number of remaining characters: ${characters.length}")
   }
 
+  def get_user_input(message: String): String = {
+    print(message)
+    val input = readLine()
+    input
+  }
+
+  def validate_attribute_choice(choice: String): Int = {
+    try{
+      choice.toInt
+    } catch{
+      case e: NumberFormatException => {
+        println("Invalid attribute choice, please enter a number e.g. '3' ")
+        get_attribute_choice()}
+    }
+  }
 
   def get_attribute_choice():Int = {
     println(
@@ -73,16 +88,9 @@ class Interface {
          |8. Get Hint
     """.stripMargin
     )
-
-    print("Enter the number of your choice (e.g. '4' to ask about glasses): ")
-    val attribute_choice = readLine()
-    try{
-      attribute_choice.toInt
-    } catch{
-      case e: NumberFormatException => {
-        println("Invalid attribute choice, please enter a number e.g. '3' ")
-        get_attribute_choice()}
-    }
+    val userInput: String = get_user_input("Enter the number of your choice (e.g. '4' to ask about glasses): ")
+    val validatedInput: Int = validate_attribute_choice(userInput)
+    validatedInput
   }
 
   def get_name_choice(): String = {
