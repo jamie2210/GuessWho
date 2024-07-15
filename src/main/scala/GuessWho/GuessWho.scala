@@ -1,4 +1,6 @@
 package GuessWho
+import scala.io.StdIn.readLine
+
 
 object GuessWho extends App{
 
@@ -38,6 +40,33 @@ object GuessWho extends App{
     println(s"Number of remaining characters: ${_playersRemaining.length}")
   }
 
-  displayCharacters(_playersRemaining)
 
+  def get_attribute_choice():Int = {
+    println(
+      s"""
+         |1. Name
+         |2. Hair
+         |3. Facial Hair
+         |4. Glasses
+         |5. Hat
+         |6. Gender
+         |7. Eyes
+         |
+         |8. Get Hint
+    """.stripMargin
+    )
+
+    print("Enter the number of your choice (e.g. '4' to ask about glasses): ")
+    val attribute_choice = readLine()
+    try{
+      attribute_choice.toInt
+    } catch{
+      case e: NumberFormatException => {
+        println("Invalid choice, please select number")
+      get_attribute_choice()}
+    }
+  }
+
+  displayCharacters(_playersRemaining)
+  val x = get_attribute_choice()
 }
