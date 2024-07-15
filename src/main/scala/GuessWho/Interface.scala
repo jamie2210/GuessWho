@@ -26,8 +26,8 @@ class Interface {
   )
 
   private var _genderQuestions:Map[Int, String] = Map(
-    1 -> "Are the male?",
-    2 -> "Are the female?",
+    1 -> "Are they male?",
+    2 -> "Are they female?",
     0 -> "Go back"
   )
 
