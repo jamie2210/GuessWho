@@ -130,8 +130,10 @@ class GuessSpec extends FlatSpec {
     assert(interface.displayCharacters(characters) == println(s"Number of remaining characters: ${characters.length}"))
   }
 
-  "get_attribute_choice" should "Display first list of character questions" in {
-    assert(interface.get_attribute_choice())
+  "validate_attribute_choice" should "returns an int if input is also a number" in {
+    assert(interface.validate_attribute_choice("5") == 5)
+    assert(interface.validate_attribute_choice("0") == 0)
+    assert(interface.validate_attribute_choice("-1") == -1)
   }
 }
 

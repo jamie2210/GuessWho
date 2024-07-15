@@ -113,8 +113,6 @@ class Interface {
     validated_choice
   }
 
-
-
   def check_user_guess(guess:Int):Int = {
     val filterNumber:Int = guess match {
       case 2 => get_question_choice(_hairQuestions) match {
