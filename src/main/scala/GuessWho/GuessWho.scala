@@ -25,7 +25,14 @@ object GuessWho extends App{
     1 -> "Do they have hair?",
     2 -> "Do they have blonde hair?",
     3 -> "Do they have brunette hair?",
-    4 -> "Do they have red hair?"
+    4 -> "Do they have red hair?",
+    5 -> "Go back"
+  )
+  private var _EyeQuestions:Map[Int, String] = Map(
+    1 -> "Do they have blue eyes?",
+    2 -> "Do they have green hair?",
+    3 -> "Do they have brown hair?",
+    4 -> "Go back"
   )
 
 
@@ -74,6 +81,16 @@ object GuessWho extends App{
     }
   }
 
-  displayCharacters(_playersRemaining)
-  val x = get_attribute_choice()
+
+  def user_turn() = {
+    displayCharacters(_playersRemaining)
+    val attribute = get_attribute_choice()
+    // attribute match {}
+    // Display relevant questions - new function, takes in a map
+    // remove question from map -> filterNot(key)
+    // filter on question asked - calls filter func in game
+    // if filter_by_name then make sure to check if they are a winner
+    // gets remaining players
+
+  }
 }
