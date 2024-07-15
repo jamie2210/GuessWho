@@ -6,7 +6,8 @@ class Interface {
 
   private var _hints:Map[Int, String] = Map(
     1 -> "remove random character",
-    2 -> "their name contains...?"
+    2 -> "their name contains...?",
+    0 -> "Go back"
   )
 
   private var _hairQuestions:Map[Int, String] = Map(
@@ -157,6 +158,12 @@ class Interface {
         case 2 => 8
         case 3 => 7
         case _ => -1
+      }
+      case 8 => get_question_choice(_hints) match {
+        case 0 => 0
+        case 1 => ???
+        case 2 => ???
+        case -1 => -1
       }
       case _ => -1
     }
