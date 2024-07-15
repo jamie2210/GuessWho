@@ -106,7 +106,7 @@ object GuessWho extends App{
     }
   }
 
-  def get_name_choice: String = {
+  def get_name_choice(): String = {
     println("Enter 0 to go back or")
     print("Enter the name of the character you think it is:  ")
     val name = readLine()
@@ -184,18 +184,22 @@ object GuessWho extends App{
       _newTurn = false
     }
     val attribute = get_attribute_choice()
-    val guessNumber:Int = check_user_guess(attribute)
+    if (attribute == 1){
+      val name:String = get_name_choice()
+      val filteredPlayers = game.filterRemaining(12, name)
+      _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
+      _winner = if (_playersRemaining.length == 1){
+        true
+      }else{
+        false
+      }
+    } else {
+      val guessNumber:Int = check_user_guess(attribute)
+      if (guessNumber == 0) user_turn()
+      val filteredPlayers = game.filterRemaining(guessNumber)
+      _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))}
+
     // returns -1 for invalid question input, 0 for go back, other is fine
-    if (guessNumber == 0) user_turn()
-
-
-    val filteredPlayers = game.filterRemaining(guessNumber)
-    _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
-    _winner = if (_playersRemaining.length == 1){
-      true
-    }else{
-      false
-    }
     _newTurn = true
     if(!_winner){user_turn()}else{false}
 
