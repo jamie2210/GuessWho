@@ -126,6 +126,8 @@ class GuessSpec extends FlatSpec {
   //  #               EXTENSION 1           #
   //  #######################################
 
+  // Limited on testing due to I/O functions
+
   "displayCharacters" should "Display list of characters and their attributes" in {
     assert(interface.displayCharacters(characters) == println(s"Number of remaining characters: ${characters.length}"))
   }
@@ -135,5 +137,6 @@ class GuessSpec extends FlatSpec {
     assert(interface.validate_attribute_choice("0") == 0)
     assert(interface.validate_attribute_choice("-1") == -1)
   }
+
 }
 
