@@ -3,6 +3,12 @@ package GuessWho
 import scala.io.StdIn.readLine
 
 class Interface {
+
+  private var _hints:Map[Int, String] = Map(
+    1 -> "remove random character",
+    2 -> "their name contains...?"
+  )
+
   private var _hairQuestions:Map[Int, String] = Map(
     1 -> "Do they have hair?",
     2 -> "Do they have blonde hair?",
