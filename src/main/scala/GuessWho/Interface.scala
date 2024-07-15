@@ -162,7 +162,7 @@ class Interface {
       case 8 => get_question_choice(_hints) match {
         case 0 => 0
         case 1 => 81
-        case 2 => ???
+        case 2 => 82
         case -1 => -1
       }
       case _ => -1

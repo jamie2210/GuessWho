@@ -35,6 +35,12 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     }
   }
 
+  def display_random_letter(): Seq[Character] = {
+    val random_indexInt:Int = Random.nextInt(chosenCharacter.name.length)
+    println(s"name contains the letter '${chosenCharacter.name.toLowerCase.charAt(random_indexInt)}' ")
+    _remainingPlayers
+  }
+
   def filterRemaining(attribute:Int):Seq[Character]={
    attribute match {
       // Boolean params
@@ -55,6 +61,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
 
 //       Option 8 is hints therefore 81 = hint 1
       case 81 => remove_random_character()
+      case 82 => display_random_letter()
 
 
       case _ => _remainingPlayers
