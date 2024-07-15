@@ -9,6 +9,8 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
 //  Chose random player index
   private val randomIndex:Int = Random.nextInt(characters.length)
 
+  private var _recentUpdateMessage: String = ""
+
 //  For testing, use default chosen character if set
   private val chosenCharacter:Character = defaultChosenCharacter match {
     case Some(character) => character
@@ -22,6 +24,11 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
 
   def getRemainingCharacters:Seq[Character] = _remainingPlayers
 
+  def get_update_message():String = _recentUpdateMessage
+
+  def reset_update_message(): String = {
+    _recentUpdateMessage = ""
+  _recentUpdateMessage}
 
   def remove_random_character():Seq[Character]={
     if (_remainingPlayers.length < 2) {
@@ -30,14 +37,14 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       val notChosenPlayers:Seq[Character] = _remainingPlayers.filterNot(_ == chosenCharacter)
       val random_indexInt:Int = Random.nextInt(notChosenPlayers.length)
       val playerToRemove:Character = notChosenPlayers(random_indexInt)
-      println(s"Removed: ${playerToRemove.name}")
+      _recentUpdateMessage = (s"It's not ${playerToRemove.name}")
       _remainingPlayers.filterNot(_ == notChosenPlayers(random_indexInt))
     }
   }
 
   def display_random_letter(): Seq[Character] = {
     val random_indexInt:Int = Random.nextInt(chosenCharacter.name.length)
-    println(s"name contains the letter '${chosenCharacter.name.toLowerCase.charAt(random_indexInt)}' ")
+    _recentUpdateMessage = (s"name contains the letter '${chosenCharacter.name.toLowerCase.charAt(random_indexInt)}' ")
     _remainingPlayers
   }
 

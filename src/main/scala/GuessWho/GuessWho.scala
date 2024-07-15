@@ -26,8 +26,9 @@ object GuessWho extends App{
   private var _newTurn:Boolean = true
   private var _winner:Boolean = false
 
-  def print_characters() = if(_newTurn){
+  def print_characters(updateMessage: String): Unit = if(_newTurn){
     interface.displayCharacters(_playersRemaining)
+    println(updateMessage)
     _newTurn = false
   }
 
@@ -59,7 +60,6 @@ object GuessWho extends App{
   }
 
   def user_turn():Boolean = {
-    print_characters()
     val attribute = interface.get_attribute_choice()
     if (attribute == 1){
       _playersRemaining = filter_by_name()
@@ -68,9 +68,12 @@ object GuessWho extends App{
       }
     // returns -1 for invalid question input, 0 for go back, other is fine
     _newTurn = true
+    print_characters(game.get_update_message())
+    game.reset_update_message()
     if(!_winner){user_turn()}else{false}
 
   }
+  print_characters("")
   user_turn()
   println("Well done!!")
 }
