@@ -21,6 +21,13 @@ object GuessWho extends App{
 
   private var _playersRemaining:Seq[Character] = game.getRemainingCharacters
 
+  private var _hairQuestions:Map[Int, String] = Map(
+    1 -> "Do they have hair?",
+    2 -> "Do they have blonde hair?",
+    3 -> "Do they have brunette hair?",
+    4 -> "Do they have red hair?"
+  )
+
 
   def displayCharacters(characters:Seq[Character]):Unit = {
     _playersRemaining.foreach { character =>
@@ -63,7 +70,7 @@ object GuessWho extends App{
     } catch{
       case e: NumberFormatException => {
         println("Invalid choice, please select number")
-      get_attribute_choice()}
+        get_attribute_choice()}
     }
   }
 
