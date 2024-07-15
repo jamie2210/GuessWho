@@ -192,8 +192,14 @@ object GuessWho extends App{
     } else {
       val guessNumber:Int = check_user_guess(attribute)
       guessNumber match {
-        case 0 => user_turn()
-        case -1 => user_turn()
+        case 0 =>{
+          println("Back to attribute options")
+          user_turn()
+        }
+        case -1 => {
+          println("Invalid option")
+          user_turn()
+        }
         case _ => guessNumber
       }
       if (guessNumber == 0) user_turn()
