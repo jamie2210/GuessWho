@@ -170,7 +170,11 @@ object GuessWho extends App{
       }
       case _ => -1
     }
-    filterNumber
+    val validGuess:Int = if (filterNumber == -1){
+      println("Invalid input. Please enter question number only")
+    check_user_guess(guess)} else filterNumber
+
+    validGuess
   }
 
   def user_turn():Boolean = {
@@ -180,23 +184,22 @@ object GuessWho extends App{
       _newTurn = false
     }
     val attribute = get_attribute_choice()
-    //-1 invalid guess, 0 to go back, 1,...
     val guessNumber:Int = check_user_guess(attribute)
-    if (guessNumber != 0 && guessNumber != -1){_playersRemaining = game.filterRemaining(guessNumber)}
-    val winner:Boolean = if (_playersRemaining.length == 1){true}else{false}
-    // attribute match {}
-    // Display relevant questions - new function, takes in a map
-    // remove question from map -> filterNot(key)
-    // filter on question asked - calls filter func in game
-    // if filter_by_name then make sure to check if they are a winner
-    // gets remaining players
-    _newTurn = true
-    run(winner)
-  }
+    // returns -1 for invalid question input, 0 for go back, other is fine
+    if (guessNumber == 0) user_turn()
 
-  def run(winner:Boolean):Boolean = {
-    if(winner){true}
-    else{user_turn()}
+
+    val filteredPlayers = game.filterRemaining(guessNumber)
+    _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
+    _winner = if (_playersRemaining.length == 1){
+      true
+    }else{
+      false
+    }
+    _newTurn = true
+    if(!_winner){user_turn()}else{false}
+
   }
-run(_winner)
+  user_turn()
+  println("Well done!!")
 }
