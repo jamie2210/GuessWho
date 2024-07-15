@@ -197,7 +197,7 @@ object GuessWho extends App{
           user_turn()
         }
         case -1 => {
-          println("Invalid option")
+          println("Invalid option, please choose number between 1 and 8")
           user_turn()
         }
         case _ => guessNumber
