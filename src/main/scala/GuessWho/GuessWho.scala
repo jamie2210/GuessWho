@@ -21,6 +21,9 @@ object GuessWho extends App{
 
   private var _playersRemaining:Seq[Character] = game.getRemainingCharacters
 
+  private var _newTurn:Boolean = true
+  private var _winner:Boolean = false
+
   private var _hairQuestions:Map[Int, String] = Map(
     1 -> "Do they have hair?",
     2 -> "Do they have blonde hair?",
@@ -126,28 +129,74 @@ object GuessWho extends App{
     }
   }
 
+  def check_user_guess(guess:Int):Int = {
+    val filterNumber:Int = guess match {
+      case 2 => get_question_choice(_hairQuestions) match {
+        case 0 => 0
+        case 1 => 1
+        case 2 => 10
+        case 3 => 9
+        case 4 => 11
+        case _ => -1
+      }
 
-  def user_turn() = {
-    displayCharacters(_playersRemaining)
-    val attribute = get_attribute_choice()
-    attribute match {
-      case 2 => get_question_choice(_hairQuestions)
-
-
-      case 3 => get_question_choice(_facialQuestions)
-      case 4 => get_question_choice(_glassesQuestions)
-      case 5 => get_question_choice(_hatQuestions)
-      case 6 => get_question_choice(_genderQuestions)
-      case 7 => get_question_choice(_eyeQuestions)
+      case 3 => get_question_choice(_facialQuestions) match {
+        case 0 => 0
+        case 1 => 2
+        case _ => -1
+      }
+      case 4 => get_question_choice(_glassesQuestions) match {
+        case 0 => 0
+        case 1 => 3
+        case _ => -1
+      }
+      case 5 => get_question_choice(_hatQuestions) match {
+        case 0 => 0
+        case 1 => 4
+        case _ => -1
+      }
+      case 6 => get_question_choice(_genderQuestions) match {
+        case 0 => 0
+        case 1 => 5
+        case 2 => 5
+        case _ => -1
+      }
+      case 7 => get_question_choice(_eyeQuestions) match {
+        case 0 => 0
+        case 1 => 6
+        case 2 => 8
+        case 3 => 7
+        case _ => -1
+      }
       case _ => -1
     }
+    filterNumber
+  }
+
+  def user_turn():Boolean = {
+
+    if(_newTurn){
+      displayCharacters(_playersRemaining)
+      _newTurn = false
+    }
+    val attribute = get_attribute_choice()
+    //-1 invalid guess, 0 to go back, 1,...
+    val guessNumber:Int = check_user_guess(attribute)
+    if (guessNumber != 0 && guessNumber != -1){_playersRemaining = game.filterRemaining(guessNumber)}
+    val winner:Boolean = if (_playersRemaining.length == 1){true}else{false}
     // attribute match {}
     // Display relevant questions - new function, takes in a map
     // remove question from map -> filterNot(key)
     // filter on question asked - calls filter func in game
     // if filter_by_name then make sure to check if they are a winner
     // gets remaining players
-
+    _newTurn = true
+    run(winner)
   }
-  user_turn()
+
+  def run(winner:Boolean):Boolean = {
+    if(winner){true}
+    else{user_turn()}
+  }
+run(_winner)
 }
