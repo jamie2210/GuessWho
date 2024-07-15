@@ -95,26 +95,25 @@ class Interface {
 
   def get_name_choice(): String = {
     println("Enter 0 to go back or")
-    print("Enter the name of the character you think it is:  ")
-    val name = readLine()
+    val name = get_user_input("Enter the name of the character you think it is:  ")
     name
 
   }
 
-  def get_question_choice(questions: Map[Int, String]): Int = {
+  def display_questions(questions: Map[Int, String]): Unit = {
     questions.foreach {
       case (key, value) => println(s"$key : $value")}
-
-    print("Enter the number of the question you'd like to ask: ")
-    val attribute_choice = readLine()
-    try{
-      attribute_choice.toInt
-    } catch{
-      case e: NumberFormatException => {
-        println("Invalid question choice, please enter a number e.g. '3'")
-        get_question_choice(questions)}
-    }
   }
+
+  def get_question_choice(questions: Map[Int, String]): Int = {
+    display_questions(questions)
+
+    val attribute_choice = get_user_input("Enter the number of the question you'd like to ask: ")
+    val validated_choice = validate_attribute_choice(attribute_choice)
+    validated_choice
+  }
+
+
 
   def check_user_guess(guess:Int):Int = {
     val filterNumber:Int = guess match {
