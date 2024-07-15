@@ -26,35 +26,35 @@ object GuessWho extends App{
     2 -> "Do they have blonde hair?",
     3 -> "Do they have brunette hair?",
     4 -> "Do they have red hair?",
-    5 -> "Go back"
+    0 -> "Go back"
   )
 
   private var _eyeQuestions:Map[Int, String] = Map(
     1 -> "Do they have blue eyes?",
     2 -> "Do they have brown eyes?",
     3 -> "Do they have green eyes?",
-    4 -> "Go back"
+    0 -> "Go back"
   )
 
   private var _genderQuestions:Map[Int, String] = Map(
     1 -> "Are the male?",
     2 -> "Are the female?",
-    3 -> "Go back"
+    0 -> "Go back"
   )
 
   private var _facialQuestions:Map[Int, String] = Map(
     1 -> "Do they have facial hair?",
-    2 -> "Go back"
+    0 -> "Go back"
   )
 
   private var _glassesQuestions:Map[Int, String] = Map(
     1 -> "Do they have glasses?",
-    2 -> "Go back"
+    0 -> "Go back"
   )
 
   private var _hatQuestions:Map[Int, String] = Map(
     1 -> "Do they have a hat?",
-    2 -> "Go back"
+    0 -> "Go back"
   )
 
 
@@ -104,7 +104,7 @@ object GuessWho extends App{
   }
 
   def get_name_choice: String = {
-    println("Enter 1 to go back or")
+    println("Enter 0 to go back or")
     print("Enter the name of the character you think it is:  ")
     val name = readLine()
     name
@@ -132,6 +132,8 @@ object GuessWho extends App{
     val attribute = get_attribute_choice()
     attribute match {
       case 2 => get_question_choice(_hairQuestions)
+
+
       case 3 => get_question_choice(_facialQuestions)
       case 4 => get_question_choice(_glassesQuestions)
       case 5 => get_question_choice(_hatQuestions)
