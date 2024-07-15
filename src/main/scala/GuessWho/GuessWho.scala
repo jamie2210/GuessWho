@@ -28,12 +28,40 @@ object GuessWho extends App{
     4 -> "Do they have red hair?",
     5 -> "Go back"
   )
+
   private var _EyeQuestions:Map[Int, String] = Map(
     1 -> "Do they have blue eyes?",
-    2 -> "Do they have green hair?",
-    3 -> "Do they have brown hair?",
+    2 -> "Do they have brown eyes?",
+    3 -> "Do they have green eyes?",
     4 -> "Go back"
   )
+
+  private var _GenderQuestions:Map[Int, String] = Map(
+    1 -> "Are the male?",
+    2 -> "Are the female?",
+    3 -> "Go back"
+  )
+
+  private var _facialQuestions:Map[Int, String] = Map(
+    1 -> "Do they have facial hair?",
+    2 -> "Go back"
+  )
+
+  private var _glassesQuestions:Map[Int, String] = Map(
+    1 -> "Do they have glasses?",
+    2 -> "Go back"
+  )
+
+  private var _hatQuestions:Map[Int, String] = Map(
+    1 -> "Do they have a hat?",
+    2 -> "Go back"
+  )
+
+  private var _nameQuestion:String =
+    """
+      | 1. Go back
+      | Or enter name:
+      |""".stripMargin
 
 
   def displayCharacters(characters:Seq[Character]):Unit = {
@@ -81,17 +109,37 @@ object GuessWho extends App{
     }
   }
 
+  def get_name_choice: String = {
+    println("Enter 1 to go back or")
+    print("Enter the name of the character you think it is:  ")
+    val name = readLine()
+    name
+
+  }
+
   def get_question_choice(questions: Map[Int, String]): Int = {
     questions.foreach {
     case (key, value) => println(s"$key : $value")}
-5
+
+    print("Enter the number of the question you'd like to ask: ")
+    val attribute_choice = readLine()
+    try{
+      attribute_choice.toInt
+    } catch{
+      case e: NumberFormatException => {
+        println("Invalid choice, please select number")
+        get_question_choice(questions)}
+    }
   }
 
 
   def user_turn() = {
     displayCharacters(_playersRemaining)
     val attribute = get_attribute_choice()
-    val questionChoice = get_question_choice(_hairQuestions)
+    attribute match {
+//      case 1 => get_question_choice()
+      case 2 => get_question_choice(_hairQuestions)
+    }
     // attribute match {}
     // Display relevant questions - new function, takes in a map
     // remove question from map -> filterNot(key)
