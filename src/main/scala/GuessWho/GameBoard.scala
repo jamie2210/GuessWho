@@ -15,22 +15,17 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     case None => characters(randomIndex)
   }
 
-
   private val guessAbout:Guess = new Guess(chosenCharacter)
 
 //  keep track of remaining players
   private var _remainingPlayers:Seq[Character] = characters
 
-//  Implement filtering process depending on question
-  def makeGuess(question:String){???}
-
   def getRemainingCharacters:Seq[Character] = _remainingPlayers
-
 
   def getChosenPlayer:Character = chosenCharacter
 
   def filterRemaining(attribute:Int):Seq[Character]={
-    attribute match {
+    _remainingPlayers = attribute match {
       // Boolean params
       case 1 => if(guessAbout.guessHasHair) _remainingPlayers.filter(_.hasHair) else _remainingPlayers.filterNot(_.hasHair)
       case 2 => if(guessAbout.guessHasFacialHair) _remainingPlayers.filter(_.hasFacialHair) else _remainingPlayers.filterNot(_.hasFacialHair)
@@ -48,13 +43,15 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       case 11 => if(guessAbout.guessHairColour("RED")) _remainingPlayers.filter(_.hairColour == HairColour.RED) else _remainingPlayers.filterNot(_.hairColour == HairColour.RED)
       case _ => _remainingPlayers
     }
+    _remainingPlayers
   }
   // Guess name
   def filterRemaining(attribute:Int, guess:String):Seq[Character]= {
-    attribute match {
+    _remainingPlayers = attribute match {
       case 12 => if (guessAbout.guessName(guess)) Seq(chosenCharacter) else _remainingPlayers.filterNot(_.name.toLowerCase == guess.toLowerCase())
       case _ => _remainingPlayers
     }
+    _remainingPlayers
   }
 }
 
