@@ -1,4 +1,6 @@
 package GuessWho
+import scala.io.StdIn.readLine
+
 
 object GuessWho extends App{
 
@@ -15,29 +17,60 @@ object GuessWho extends App{
 
   private val characterList:Seq[Character] = Seq(jon, tony, bill, paul, gary, steve, jess, vicky, sarah, beff)
 
+
   private val game:GameBoard = new GameBoard(characters = characterList, defaultChosenCharacter = None)
+  private val interface: Interface = new Interface()
+
 
   private var _playersRemaining:Seq[Character] = game.getRemainingCharacters
+  private var _newTurn:Boolean = true
+  private var _winner:Boolean = false
 
-
-  def displayCharacters(characters:Seq[Character]):Unit = {
-    _playersRemaining.foreach { character =>
-      println(
-        s"""
-           |Name: ${character.name}
-           |Has Hair: ${character.hasHair}
-           |Has Facial Hair: ${character.hasFacialHair}
-           |Has Glasses: ${character.hasGlasses}
-           |Has Hat: ${character.hasHat}
-           |Gender: ${character.gender}
-           |Eye Colour: ${character.eyeColour}
-           |Hair Colour: ${character.hairColour}
-    """.stripMargin
-      )
-    }
-    println(s"Number of remaining characters: ${_playersRemaining.length}")
+  def print_characters() = if(_newTurn){
+    interface.displayCharacters(_playersRemaining)
+    _newTurn = false
   }
 
-  displayCharacters(_playersRemaining)
+  def filter_by_name(): Seq[Character] = {
+    val name: String = interface.get_name_choice()
+    val filteredPlayers = game.filterRemaining(12, name)
+    _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
+    _winner = if (_playersRemaining.length == 1) true else false
+    _playersRemaining
+  }
 
+
+  def filter_by_attribute(attribute:Int):Seq[Character] = {
+    val guessNumber:Int = interface.check_user_guess(attribute)
+    guessNumber match {
+      case 0 =>{
+        println("Back to attribute options")
+        user_turn()
+      }
+      case -1 => {
+        println("Invalid option, please choose a valid option e.g. '1' ")
+        user_turn()
+      }
+      case _ => guessNumber
+    }
+    val filteredPlayers = game.filterRemaining(guessNumber)
+    _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
+    _playersRemaining
+  }
+
+  def user_turn():Boolean = {
+    print_characters()
+    val attribute = interface.get_attribute_choice()
+    if (attribute == 1){
+      _playersRemaining = filter_by_name()
+    } else {
+      _playersRemaining = filter_by_attribute(attribute)
+      }
+    // returns -1 for invalid question input, 0 for go back, other is fine
+    _newTurn = true
+    if(!_winner){user_turn()}else{false}
+
+  }
+  user_turn()
+  println("Well done!!")
 }
