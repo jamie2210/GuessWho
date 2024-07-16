@@ -84,10 +84,16 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
   // Second part of tuple is unpacked and used to declare winner
   def filterRemaining(attribute:Int, guess:String):(Seq[Character], Boolean)= {
     attribute match {
-      case 12 => if (guessAbout.guessName(guess)) (Seq(chosenCharacter), true) else (_gameCharacters.filterNot(_.name.toLowerCase == guess.toLowerCase()),false)
-      case _ => {
-        _recentUpdateMessage = "I'm not quite sure who that is... "
-        (_gameCharacters, false)}
+      case 12 => if (guessAbout.guessName(guess)) (Seq(chosenCharacter), true) else {
+        val afterFilterByName = _gameCharacters.filterNot(_.name.toLowerCase == guess.toLowerCase())
+        if (afterFilterByName.length == 10){
+          _recentUpdateMessage = s"That name is not recognised...?"
+          (afterFilterByName,false)} else {
+          _recentUpdateMessage = s"It's not $guess"
+          (afterFilterByName,false)
+        }
+        }
+      case _ => (_gameCharacters, false)
     }
   }
 }

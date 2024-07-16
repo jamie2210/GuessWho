@@ -121,8 +121,7 @@ class Interface {
   def get_name_choice(): String = {
     println("Enter 0 to go back or")
     val name = get_user_input("Enter the name of the character you think it is:  ")
-    name
-
+    name.strip()
   }
 
 //  Displays the questions for specified attribute
