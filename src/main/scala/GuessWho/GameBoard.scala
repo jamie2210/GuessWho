@@ -9,14 +9,16 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
 //  Chose random player index
   private val randomIndex:Int = Random.nextInt(characters.length)
 
+//  Var to keep track of Hints
   private var _recentUpdateMessage: String = ""
 
-//  For testing, use default chosen character if set
+//  For testing, use default chosen character if set else use randomly chosen
   private val chosenCharacter:Character = defaultChosenCharacter match {
     case Some(character) => character
     case None => characters(randomIndex)
   }
 
+//  Store new guess instance to guess about the chosen character
   private val guessAbout:Guess = new Guess(chosenCharacter)
 
   //  Store list of players 
@@ -25,7 +27,6 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
   
 //  Get methods for GuessWho Object to access 
   def getRemainingCharacters:Seq[Character] = _gameCharacters
-  
   def get_update_message():String = _recentUpdateMessage
 
 //  Method to allow GuessWho object to reset update message

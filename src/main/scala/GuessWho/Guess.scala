@@ -11,6 +11,8 @@ package GuessWho
 
 class Guess (character:Character){
 
+//  Return value of boolean params
+
   def guessHasHair: Boolean = {
     character.hasHair
   }
@@ -24,6 +26,7 @@ class Guess (character:Character){
     character.hasHat
   }
 
+//  Return true if gender of chosen character is equal to the guess
   def guessGender(guess:String): Boolean = {
     guess.toLowerCase() match {
       case "male" => (character.gender == Gender.MALE)
@@ -32,6 +35,7 @@ class Guess (character:Character){
     }
   }
 
+//  Return true if eye colour of chosen character is equal to the guessed colour
   def guessEyeColour(guess:String): Boolean = {
     guess.toLowerCase() match {
       case "green" => (character.eyeColour == EyeColour.GREEN)
@@ -40,7 +44,7 @@ class Guess (character:Character){
       case _ => false
     }
   }
-
+  //  Return true if hair colour of chosen character is equal to the guessed colour
   def guessHairColour(guess:String): Boolean = {
     guess.toLowerCase() match {
       case "blonde" => (character.hairColour == HairColour.BLONDE)
@@ -49,7 +53,7 @@ class Guess (character:Character){
       case _ => false
     }
   }
-
+  //  Return true if the name of chosen character is equal to the guessed name
   def guessName(guess: String): Boolean = {
     guess.toLowerCase() == character.name.toLowerCase()
   }
