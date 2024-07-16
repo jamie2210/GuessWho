@@ -53,15 +53,15 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     _gameCharacters
   }
 
-//  Filter the characters depending on their 
+//  Filter the characters depending on question
   def filterRemaining(attribute:Int):Seq[Character]={
    attribute match {
-      // Boolean params
+      // Boolean params for 'has X' questions
       case 1 => if(guessAbout.guessHasHair) _gameCharacters.filter(_.hasHair) else _gameCharacters.filterNot(_.hasHair)
       case 2 => if(guessAbout.guessHasFacialHair) _gameCharacters.filter(_.hasFacialHair) else _gameCharacters.filterNot(_.hasFacialHair)
       case 3 => if(guessAbout.guessHasGlasses) _gameCharacters.filter(_.hasGlasses) else _gameCharacters.filterNot(_.hasGlasses)
       case 4 => if(guessAbout.guessHasHat) _gameCharacters.filter(_.hasHat) else _gameCharacters.filterNot(_.hasHat)
-      // Gender params+
+      // Gender params
       case 5 => if(guessAbout.guessGender("MALE")) _gameCharacters.filter(_.gender == Gender.MALE) else _gameCharacters.filterNot(_.gender == Gender.MALE)
       // Eye Colour params
       case 6 => if(guessAbout.guessEyeColour("BLUE")) _gameCharacters.filter(_.eyeColour == EyeColour.BLUE) else _gameCharacters.filterNot(_.eyeColour == EyeColour.BLUE)
@@ -72,16 +72,15 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       case 10 => if(guessAbout.guessHairColour("BLONDE")) _gameCharacters.filter(_.hairColour == HairColour.BLONDE) else _gameCharacters.filterNot(_.hairColour == HairColour.BLONDE)
       case 11 => if(guessAbout.guessHairColour("RED")) _gameCharacters.filter(_.hairColour == HairColour.RED) else _gameCharacters.filterNot(_.hairColour == HairColour.RED)
 
-//       Option 8 is hints therefore 81 = hint 1
+      // Option 8 is for hints therefore 81 = hint 1
       case 81 => remove_random_character()
       case 82 => display_random_letter()
-
-
 
       case _ => _gameCharacters
     }
   }
-  // Guess name
+  // Guess name and return a tuple, if guessed name == chosen character name then set to true
+  // Second part of tuple is unpacked and used to declare winner
   def filterRemaining(attribute:Int, guess:String):(Seq[Character], Boolean)= {
     attribute match {
       case 12 => if (guessAbout.guessName(guess)) (Seq(chosenCharacter), true) else (_gameCharacters.filterNot(_.name.toLowerCase == guess.toLowerCase()),false)
