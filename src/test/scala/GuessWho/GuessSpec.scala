@@ -132,15 +132,38 @@ class GuessSpec extends FlatSpec {
     assert(interface.displayCharacters(characters) == println(s"Number of remaining characters: ${characters.length}"))
   }
 
-  "validate_attribute_choice" should "returns an int if input is also a number" in {
+  "validate_choice" should "returns an int if input is also a number" in {
     assert(interface.validate_choice("5") == 5)
     assert(interface.validate_choice("0") == 0)
     assert(interface.validate_choice("-1") == -1)
-//    SHOULD ADD FOR ALL TYPES TO MAKE SURE ONLY INTEGERS ARE ACCEPTED
   }
+    /** --- Tests we would implement if we knew how :P ---
+     * Due to using CLI functions, we were not able to implement TDD for the following methods:
+     * interface.get_user_input
+     * interface.get_attribute_choice
+     * interface.validate_choice
+     * interface.get_name_choice
+     * interface.get_question_choice
+     * interface.check_user_guess
+     */
+
+
   //  #######################################
   //  #               EXTENSION 2           #
   //  #######################################
+  "remove_random_character" should "removes random character (who isn't chosen player) from remaining players" in {
+    val removedRandomCharacterList:Seq[Character] = testGame.remove_random_character()
+    assert(removedRandomCharacterList.contains(jamie))
+    assert(removedRandomCharacterList.length == characters.length-1)
+  }
+  "display_random_letter" should "displays random letter from chosen characters name" in {
+     testGame.display_random_letter()
+    assert(testGame.get_update_message() == (s"Hint: Name contains the letter 'j' ")
+    || testGame.get_update_message() == (s"Hint: Name contains the letter 'a' ")
+    || testGame.get_update_message() == (s"Hint: Name contains the letter 'm' ")
+    || testGame.get_update_message() == (s"Hint: Name contains the letter 'i' ")
+    || testGame.get_update_message() == (s"Hint: Name contains the letter 'e' "))
+  }
 
 //  Hard to do tests will think about
 
