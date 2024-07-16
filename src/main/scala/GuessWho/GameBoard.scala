@@ -85,7 +85,9 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
   def filterRemaining(attribute:Int, guess:String):(Seq[Character], Boolean)= {
     attribute match {
       case 12 => if (guessAbout.guessName(guess)) (Seq(chosenCharacter), true) else (_gameCharacters.filterNot(_.name.toLowerCase == guess.toLowerCase()),false)
-      case _ => (_gameCharacters, false)
+      case _ => {
+        _recentUpdateMessage = "I'm not quite sure who that is... "
+        (_gameCharacters, false)}
     }
   }
 }
