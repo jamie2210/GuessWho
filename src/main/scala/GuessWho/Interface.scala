@@ -92,7 +92,7 @@ class Interface {
       choice.toInt
     } catch{
       case e: NumberFormatException => {
-        println("Invalid attribute choice, please enter a number e.g. '3' ")
+        println("Invalid input, please enter a number e.g. '3' ")
         get_attribute_choice()}
     }
   }
