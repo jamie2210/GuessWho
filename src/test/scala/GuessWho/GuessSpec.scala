@@ -25,6 +25,13 @@ class GuessSpec extends FlatSpec {
   val testGame: GameBoard = new GameBoard(characters = characters, defaultChosenCharacter = Some(jamie))
   val interface: Interface = new Interface()
 
+
+
+
+  //  #######################################
+  //  #       FOUNDATIONAL GUESS LOGIC      #
+  //  #######################################
+
   // Does Character have hair test
   "guessHasHair" should "return true if character has hair, false if they don't" in {
     assert(!guessJamie.guessHasHair)
