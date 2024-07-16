@@ -54,6 +54,7 @@ object GuessWho extends App{
 // Filter characters by attribute question
   def filter_by_attribute(attribute:Int):Seq[Character] = {
     val guessNumber:Int = interface.check_user_guess(attribute)
+//     This case could be moved to interface class
     guessNumber match {
       case 0 =>{
         println("Back to attribute options")
