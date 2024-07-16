@@ -133,9 +133,10 @@ class GuessSpec extends FlatSpec {
   }
 
   "validate_attribute_choice" should "returns an int if input is also a number" in {
-    assert(interface.validate_attribute_choice("5") == 5)
-    assert(interface.validate_attribute_choice("0") == 0)
-    assert(interface.validate_attribute_choice("-1") == -1)
+    assert(interface.validate_choice("5") == 5)
+    assert(interface.validate_choice("0") == 0)
+    assert(interface.validate_choice("-1") == -1)
+//    SHOULD ADD FOR ALL TYPES TO MAKE SURE ONLY INTEGERS ARE ACCEPTED
   }
   //  #######################################
   //  #               EXTENSION 2           #
