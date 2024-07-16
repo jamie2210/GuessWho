@@ -8,8 +8,8 @@ class Interface {
 
 // Questions for Hints
   private var _hints:Map[Int, String] = Map(
-    1 -> "remove random character",
-    2 -> "their name contains letter ... ?",
+    1 -> "Remove random character",
+    2 -> "Their name contains letter ... ?",
     0 -> "Go back"
   )
 
