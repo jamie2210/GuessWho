@@ -43,13 +43,15 @@ object GuessWho extends App{
 //  Check to see if user chose correct character by name
 //  If yes -> they win
 //  If no -> continue
-  private def filter_by_name(): Seq[Character] = {
+  private def filter_by_name(): Either[GuessWhoError, Seq[Character]] = {
     val name: String = interface.get_name_choice()
-    if(name == "0") user_turn()
+    if(name.strip() == "0") Left(GuessWhoError.GoBackError)
+    else{
     val filteredPlayers:(Seq[Character], Boolean) = game.filterRemaining(name)
     _playersRemaining = _playersRemaining.filter(x => filteredPlayers._1.exists(_.name == x.name))
     _winner = if (filteredPlayers._2) true else false
-    _playersRemaining
+    Right(_playersRemaining)
+    }
   }
 
 // Filter characters by attribute question
@@ -63,7 +65,13 @@ object GuessWho extends App{
   private def user_turn():Boolean = {
     val attribute: AttributeChoice = interface.getAttributeChoice
     attribute match {
-      case AttributeChoice.NameChoice => filter_by_name()
+      case AttributeChoice.NameChoice =>
+        val nameGuess = filter_by_name() match {
+          case Left(error) =>
+            error.printErrorMessage()
+            user_turn()
+          case Right(players) => players
+        }
       case _ =>
         val question: Question = interface.getQuestionFromAttribute(attribute)
         if (question == Question.GoBackOption) user_turn() else filterByAttribute(question)
