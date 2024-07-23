@@ -81,11 +81,42 @@ class InterfaceSpec extends AnyWordSpec with Matchers{
     }
   }
 
-  "validateAttributeChoice"
+  "validateAttributeChoice" should {
+    "return Left" when{
+      "input string cannot convert to integer" in {
+        assert(interface.validateAttributeChoice("hello") == Left(GuessWhoError.AttributeNotInteger))
+      }
+      "The input as integer is greater than max bound" in {
+        assert(interface.validateAttributeChoice("9") == Left(GuessWhoError.AttributeOutOfRange))
+      }
+      "The input as integer is smaller than min bound" in {
+        assert(interface.validateAttributeChoice("0") == Left(GuessWhoError.AttributeOutOfRange))
+      }
 
-  "validateQuestionChoice"
+    }
+    "return Right" when {
+      "input string can convert to integer and is in range 1-8" in {
+        assert(interface.validateAttributeChoice("2") == Right(AttributeChoice.HairChoice))
+      }
+    }
+  }
 
-  "display_questions"
-
-  "getQuestionFromAttribute"
+  "validateQuestionChoice" should {
+    "return Left" when{
+      "input string cannot convert to integer" in {
+        assert(interface.validateQuestionChoice("hello", 0, 4) == Left(GuessWhoError.AttributeNotInteger))
+      }
+      "The input as integer is greater than max bound" in {
+        assert(interface.validateQuestionChoice("9", 0, 4) == Left(GuessWhoError.AttributeOutOfRange))
+      }
+      "The input as integer is smaller than min bound" in {
+        assert(interface.validateQuestionChoice("-1", 0, 4) == Left(GuessWhoError.AttributeOutOfRange))
+      }
+    }
+    "return Right" when {
+      "input string can convert to integer and is in range" in {
+        assert(interface.validateQuestionChoice("2", 0 , 4) == Right(2))
+      }
+    }
+  }
 }

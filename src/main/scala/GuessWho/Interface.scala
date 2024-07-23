@@ -116,7 +116,7 @@ class Interface {
     }
   }
 
-  private def validateAttributeChoice(input:String):Either[GuessWhoError, AttributeChoice] = {
+  def validateAttributeChoice(input:String):Either[GuessWhoError, AttributeChoice] = {
     val minX:Int = 1
     val maxX:Int = 8
     for {
@@ -126,7 +126,7 @@ class Interface {
     } yield choice
   }
 
-  private def validateQuestionChoice(input:String, minInclusive:Int, maxInclusive:Int):Either[GuessWhoError, Int] = {
+  def validateQuestionChoice(input:String, minInclusive:Int, maxInclusive:Int):Either[GuessWhoError, Int] = {
     val minX:Int = minInclusive
     val maxX:Int = maxInclusive
     for {
