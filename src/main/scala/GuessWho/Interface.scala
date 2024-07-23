@@ -155,7 +155,7 @@ class Interface {
     val validatedInput:Either[GuessWhoError, AttributeChoice] = validateAttributeChoice(userInput)
     val attributeChoice:AttributeChoice = validatedInput match {
       case Left(error) =>
-        println(error)
+        error.printErrorMessage()
         getAttributeChoice
 
       case Right(attributeChoice) => attributeChoice
@@ -184,7 +184,7 @@ class Interface {
     val validated_choice:Either[GuessWhoError, Int] = validateQuestionChoice(question_choice, minQuestionNum, maxQuestionNum)
     validated_choice match {
       case Left(error) =>
-        println(error)
+        error.printErrorMessage()
         getQuestionChoice(questions, minQuestionNum, maxQuestionNum)
       case Right(validNumber) => validNumber
     }
