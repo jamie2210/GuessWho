@@ -90,19 +90,19 @@ class Interface {
     input
   }
 
-  private def isInteger(input: String): Either[GuessWhoError, Int] = {
+  def isInteger(input: String): Either[GuessWhoError, Int] = {
     try {
       Right(input.toInt)
     } catch {
       case _: NumberFormatException => Left(GuessWhoError.AttributeNotInteger)
     }
   }
-  private def isInRange(intInput:Int, minInclusive:Int, maxInclusive:Int): Either[GuessWhoError, Int] = {
+  def isInRange(intInput:Int, minInclusive:Int, maxInclusive:Int): Either[GuessWhoError, Int] = {
     if (intInput < minInclusive || intInput > maxInclusive) Left(GuessWhoError.AttributeOutOfRange)
     else Right(intInput)
   }
 
-  private def matchToAttributeChoice(choiceInt:Int):Either[GuessWhoError, AttributeChoice] = {
+  def matchToAttributeChoice(choiceInt:Int):Either[GuessWhoError, AttributeChoice] = {
     choiceInt match {
       case 1 => Right(AttributeChoice.NameChoice)
       case 2 => Right(AttributeChoice.HairChoice)
