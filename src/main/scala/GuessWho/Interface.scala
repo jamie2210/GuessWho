@@ -148,7 +148,7 @@ class Interface {
 
 
 //  Displays list of attribute options the user can enquire about
-  def get_attribute_choice():Either[GuessWhoError, AttributeChoice] = {
+  def get_attribute_choice():AttributeChoice = {
     println(
       s"""
          |1. Name
@@ -163,9 +163,15 @@ class Interface {
     """.stripMargin
     )
     val userInput: String = get_user_input("Enter the number of your choice (e.g. '4' to ask about glasses): ")
-
     val validatedInput:Either[GuessWhoError, AttributeChoice] = validateAttributeChoice(userInput)
-    validatedInput
+    val attributeChoice:AttributeChoice = validatedInput match {
+      case Left(error) =>
+        println(error)
+        get_attribute_choice()
+
+      case Right(attributeChoice) => attributeChoice
+    }
+    attributeChoice
   }
 
 //  Method used to get name of chosen character from user
@@ -188,7 +194,9 @@ class Interface {
     val question_choice = get_user_input("Enter the number of the question you'd like to ask: ")
     val validated_choice = validateQuestionChoice(question_choice, minQuestionNum, maxQuestionNum)
     validated_choice match {
-      case Left(error) => get_question_choice(questions, minQuestionNum, maxQuestionNum)
+      case Left(error) =>
+        println(error)
+        get_question_choice(questions, minQuestionNum, maxQuestionNum)
       case Right(validNumber) => validNumber
     }
   }
