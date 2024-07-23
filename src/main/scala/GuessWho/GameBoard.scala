@@ -44,7 +44,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       val notChosenPlayers: Seq[Character] = _gameCharacters.filterNot(_ == chosenCharacter)
       val random_indexInt: Int = Random.nextInt(notChosenPlayers.length)
       val playerToRemove: Character = notChosenPlayers(random_indexInt)
-      _recentUpdateMessage = (s"Hint: It's not ${playerToRemove.name}")
+      _recentUpdateMessage = s"Hint: It's not ${playerToRemove.name}"
       _gameCharacters.filterNot(_ == notChosenPlayers(random_indexInt))
     }
   }
@@ -52,7 +52,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
   //  Hint 2: Displays a rando letter from chosen characters name
   def display_random_letter(): Seq[Character] = {
     val random_indexInt: Int = Random.nextInt(chosenCharacter.name.length)
-    _recentUpdateMessage = (s"Hint: Name contains the letter '${chosenCharacter.name.toLowerCase.charAt(random_indexInt)}' ")
+    _recentUpdateMessage = s"Hint: Name contains the letter '${chosenCharacter.name.toLowerCase.charAt(random_indexInt)}' "
     _gameCharacters
   }
 
