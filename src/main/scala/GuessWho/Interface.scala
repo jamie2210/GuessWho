@@ -83,37 +83,25 @@ class Interface {
 
 
 //  Method to interact with user through CLI
-  def get_user_input(message: String): String = {
+  private def get_user_input(message: String): String = {
     print(message)
     val input = readLine()
     input
   }
 
-//  Ensuring the input is of type integer
-  def validate_choice(choice: String): Int = {
-    try {
-      choice.toInt
-    } catch {
-      case e: NumberFormatException => {
-        println("Invalid input, please enter a number e.g. '3' ")
-        5
-      }
-    }
-  }
-
-  def isInteger(input: String): Either[GuessWhoError, Int] = {
+  private def isInteger(input: String): Either[GuessWhoError, Int] = {
     try {
       Right(input.toInt)
     } catch {
       case _: NumberFormatException => Left(GuessWhoError.AttributeNotInteger)
     }
   }
-  def isInRange(intInput:Int, minInclusive:Int, maxInclusive:Int): Either[GuessWhoError, Int] = {
+  private def isInRange(intInput:Int, minInclusive:Int, maxInclusive:Int): Either[GuessWhoError, Int] = {
     if (intInput < minInclusive || intInput > maxInclusive) Left(GuessWhoError.AttributeOutOfRange)
     else Right(intInput)
   }
 
-  def matchToAttributeChoice(choiceInt:Int):Either[GuessWhoError, AttributeChoice] = {
+  private def matchToAttributeChoice(choiceInt:Int):Either[GuessWhoError, AttributeChoice] = {
     choiceInt match {
       case 1 => Right(AttributeChoice.NameChoice)
       case 2 => Right(AttributeChoice.HairChoice)
@@ -127,7 +115,7 @@ class Interface {
     }
   }
 
-  def validateAttributeChoice(input:String):Either[GuessWhoError, AttributeChoice] = {
+  private def validateAttributeChoice(input:String):Either[GuessWhoError, AttributeChoice] = {
     val minX:Int = 1
     val maxX:Int = 8
     for {
@@ -137,7 +125,7 @@ class Interface {
     } yield choice
   }
 
-  def validateQuestionChoice(input:String,minInclusive:Int, maxInclusive:Int):Either[GuessWhoError, Int] = {
+  private def validateQuestionChoice(input:String, minInclusive:Int, maxInclusive:Int):Either[GuessWhoError, Int] = {
     val minX:Int = minInclusive
     val maxX:Int = maxInclusive
     for {
@@ -182,36 +170,30 @@ class Interface {
   }
 
 //  Displays the questions for specified attribute
-  def display_questions(questions: Map[Int, String]): Unit = {
+  private def display_questions(questions: Map[Int, String]): Unit = {
     questions.foreach {
       case (key, value) => println(s"$key : $value")}
   }
 
   //  Gets the question choice and check it can be converted to type Int
-  def get_question_choice(questions: Map[Int, String], minQuestionNum: Int, maxQuestionNum: Int): Int = {
-
+  private def getQuestionChoice(questions: Map[Int, String], minQuestionNum: Int, maxQuestionNum: Int): Int = {
     display_questions(questions)
     val question_choice = get_user_input("Enter the number of the question you'd like to ask: ")
     val validated_choice:Either[GuessWhoError, Int] = validateQuestionChoice(question_choice, minQuestionNum, maxQuestionNum)
     validated_choice match {
       case Left(error) =>
         println(error)
-        get_question_choice(questions, minQuestionNum, maxQuestionNum)
+        getQuestionChoice(questions, minQuestionNum, maxQuestionNum)
       case Right(validNumber) => validNumber
     }
   }
 
-  //  Gets the question choice and
-  // Matches to the case number in filterRemaining to perform desired function
-  // - If 0, return 0 to go back to attribute options
-  // - If Invalid option, return -1 and pick again
-  // - If valid, return corresponding case number to filter the characters accordingly
   def getQuestionFromAttribute(attributeChoice: AttributeChoice):Question = {
 
     val question:Question = attributeChoice match {
 
       case AttributeChoice.HairChoice =>
-        val inputChoiceNumber = get_question_choice(_hairQuestions, 0, 4)
+        val inputChoiceNumber = getQuestionChoice(_hairQuestions, 0, 4)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.hasHairQuestion
@@ -221,33 +203,33 @@ class Interface {
         }
 
       case AttributeChoice.FacialHairChoice =>
-        val inputChoiceNumber = get_question_choice(_facialQuestions, 0, 1)
+        val inputChoiceNumber = getQuestionChoice(_facialQuestions, 0, 1)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.hasFacialHairQuestion
         }
       case AttributeChoice.GlassesChoice =>
-        val inputChoiceNumber = get_question_choice(_glassesQuestions, 0, 1)
+        val inputChoiceNumber = getQuestionChoice(_glassesQuestions, 0, 1)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.hasGlassesQuestion
         }
       case AttributeChoice.HatChoice =>
-        val inputChoiceNumber = get_question_choice(_hatQuestions, 0, 1)
+        val inputChoiceNumber = getQuestionChoice(_hatQuestions, 0, 1)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.hasHatQuestion
         }
       case AttributeChoice.GenderChoice =>
 
-        val inputChoiceNumber = get_question_choice(_genderQuestions, 0, 2)
+        val inputChoiceNumber = getQuestionChoice(_genderQuestions, 0, 2)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.MaleGenderQuestion
           case 2 => Question.FemaleGenderQuestion
         }
       case AttributeChoice.EyesChoice =>
-        val inputChoiceNumber = get_question_choice(_eyeQuestions, 0, 3)
+        val inputChoiceNumber = getQuestionChoice(_eyeQuestions, 0, 3)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.BlueEyesQuestion
@@ -255,7 +237,7 @@ class Interface {
           case 3 => Question.GreenEyesQuestion
         }
       case AttributeChoice.HintChoice =>
-        val inputChoiceNumber = get_question_choice(_hints, 0, 2)
+        val inputChoiceNumber = getQuestionChoice(_hints, 0, 2)
         inputChoiceNumber match {
           case 0 => Question.GoBackOption
           case 1 => Question.RemoveCharacterHint
@@ -263,14 +245,5 @@ class Interface {
         }
     }
     question
-  }
-
-
-  def check_user_guess(attributeChoice:Either[GuessWhoError, AttributeChoice]):Either[GuessWhoError, Question] = {
-    attributeChoice match {
-      case Left(error) => Left(error)
-      case Right(attributeChoice) => Right(getQuestionFromAttribute(attributeChoice))
-
-    }
   }
 }

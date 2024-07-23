@@ -7,11 +7,12 @@ sealed class Question
 
 object Question{
   sealed trait HintQuestion extends Question
-  sealed trait EyeColourQuestion extends Question
+  sealed class EyeColourQuestion extends Question
   sealed trait HairColourQuestion extends Question
   sealed trait GenderQuestion extends Question
-  sealed trait NameQuestion extends Question
   sealed trait GoBack extends Question
+  sealed class NameQuestion(name:String) extends Question
+
 
   case object hasHairQuestion extends Question
   case object BlondeHairQuestion extends HairColourQuestion
