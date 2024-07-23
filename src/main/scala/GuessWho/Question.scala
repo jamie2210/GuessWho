@@ -1,0 +1,5 @@
+package GuessWho
+
+object Question {
+
+}
