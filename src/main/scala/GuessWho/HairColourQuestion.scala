@@ -1,0 +1,5 @@
+package GuessWho
+
+class HairColourQuestion {
+
+}
