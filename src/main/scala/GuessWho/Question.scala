@@ -11,8 +11,6 @@ object Question{
   sealed trait HairColourQuestion extends Question
   sealed trait GenderQuestion extends Question
   sealed trait GoBack extends Question
-  sealed class NameQuestion(name:String) extends Question
-
 
   case object hasHairQuestion extends Question
   case object BlondeHairQuestion extends HairColourQuestion

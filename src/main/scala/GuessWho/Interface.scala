@@ -1,5 +1,6 @@
 package GuessWho
 
+import scala.annotation.tailrec
 import scala.io.StdIn.readLine
 
 class Interface {
@@ -136,7 +137,7 @@ class Interface {
 
 
 //  Displays list of attribute options the user can enquire about
-  def get_attribute_choice():AttributeChoice = {
+  def getAttributeChoice:AttributeChoice = {
     println(
       s"""
          |1. Name
@@ -155,7 +156,7 @@ class Interface {
     val attributeChoice:AttributeChoice = validatedInput match {
       case Left(error) =>
         println(error)
-        get_attribute_choice()
+        getAttributeChoice
 
       case Right(attributeChoice) => attributeChoice
     }
@@ -176,6 +177,7 @@ class Interface {
   }
 
   //  Gets the question choice and check it can be converted to type Int
+  @tailrec
   private def getQuestionChoice(questions: Map[Int, String], minQuestionNum: Int, maxQuestionNum: Int): Int = {
     display_questions(questions)
     val question_choice = get_user_input("Enter the number of the question you'd like to ask: ")

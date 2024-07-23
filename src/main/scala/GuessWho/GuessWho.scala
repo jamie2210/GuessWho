@@ -34,7 +34,7 @@ object GuessWho extends App{
 
 
 //  Method to display remaining characters and recent hint message
-  def print_characters(updateMessage: String): Unit = if(_newTurn){
+  private def print_characters(updateMessage: String): Unit = if(_newTurn){
     interface.displayCharacters(_playersRemaining)
     println(updateMessage)
     _newTurn = false
@@ -43,41 +43,31 @@ object GuessWho extends App{
 //  Check to see if user chose correct character by name
 //  If yes -> they win
 //  If no -> continue
-  def filter_by_name(): Seq[Character] = {
+  private def filter_by_name(): Seq[Character] = {
     val name: String = interface.get_name_choice()
-    val filteredPlayers:(Seq[Character], Boolean) = game.filterRemaining(12, name)
+    if(name == "0") user_turn()
+    val filteredPlayers:(Seq[Character], Boolean) = game.filterRemaining(name)
     _playersRemaining = _playersRemaining.filter(x => filteredPlayers._1.exists(_.name == x.name))
     _winner = if (filteredPlayers._2) true else false
     _playersRemaining
   }
 
 // Filter characters by attribute question
-  def filter_by_attribute(attribute:Int):Seq[Character] = {
-    val guessNumber:Int = interface.check_user_guess(attribute)
-//     This case could be moved to interface class
-    guessNumber match {
-      case 0 =>{
-        println("Back to attribute options")
-        user_turn()
-      }
-      case -1 => {
-        println("Invalid option, please choose a valid option e.g. '1' ")
-        user_turn()
-      }
-      case _ => guessNumber
-    }
-    val filteredPlayers = game.filterRemaining(guessNumber)
+  private def filterByAttribute(question: Question):Seq[Character] = {
+
+    val filteredPlayers = game.filterRemaining(question)
     _playersRemaining = _playersRemaining.filter(x => filteredPlayers.exists(_.name == x.name))
     _playersRemaining
   }
 
-  def user_turn():Boolean = {
-    val attribute = interface.get_attribute_choice()
-    if (attribute == 1){
-      _playersRemaining = filter_by_name()
-    } else {
-      _playersRemaining = filter_by_attribute(attribute)
-      }
+  private def user_turn():Boolean = {
+    val attribute: AttributeChoice = interface.getAttributeChoice
+    attribute match {
+      case AttributeChoice.NameChoice => filter_by_name()
+      case _ =>
+        val question: Question = interface.getQuestionFromAttribute(attribute)
+        if (question == Question.GoBackOption) user_turn() else filterByAttribute(question)
+    }
     // returns -1 for invalid question input, 0 for go back, other is fine
     _newTurn = true
     print_characters(game.get_update_message())
