@@ -192,7 +192,7 @@ class Interface {
 
     display_questions(questions)
     val question_choice = get_user_input("Enter the number of the question you'd like to ask: ")
-    val validated_choice = validateQuestionChoice(question_choice, minQuestionNum, maxQuestionNum)
+    val validated_choice:Either[GuessWhoError, Int] = validateQuestionChoice(question_choice, minQuestionNum, maxQuestionNum)
     validated_choice match {
       case Left(error) =>
         println(error)
