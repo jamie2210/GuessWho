@@ -56,26 +56,56 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     _gameCharacters
   }
 
+  private def filterByEyeColour(colour: EyeColour): Seq[Character] = {
+    if (guessAbout.guessEyeColour(colour)) {
+      _recentUpdateMessage = s"Their eyes are $colour"
+      _gameCharacters.filter(_.eyeColour == colour)
+    }
+    else {
+      _recentUpdateMessage = s"Their eyes are not $colour"
+      _gameCharacters.filterNot(_.eyeColour == colour)
+    }
+  }
+
+  private def filterByHairColour(colour: HairColour): Seq[Character] = {
+    if (guessAbout.guessHairColour(colour)) {
+      _recentUpdateMessage = s"They have $colour hair"
+      _gameCharacters.filter(_.hairColour == colour)
+    }
+    else {
+      _recentUpdateMessage = s"They do not have $colour hair"
+      _gameCharacters.filterNot(_.hairColour == colour)
+    }
+  }
+
+  private def filterByGender(gender: Gender): Seq[Character] = {
+    if (guessAbout.guessGender(gender)) {
+      _recentUpdateMessage = s"They are $gender"
+      _gameCharacters.filter(_.gender == gender)
+    } else {
+      _recentUpdateMessage = s"They are not $gender"
+      _gameCharacters.filterNot(_.gender == gender)}
+  }
+
   //  Filter the characters depending on question
   def filterRemaining(question: Question): Seq[Character] = {
     question match {
       case Question.RemoveCharacterHint => remove_random_character()
       case Question.LetterFromNameHint => display_random_letter()
-      case Question.BlueEyesQuestion => if (guessAbout.guessEyeColour("BLUE")) _gameCharacters.filter(_.eyeColour == EyeColour.BLUE) else _gameCharacters.filterNot(_.eyeColour == EyeColour.BLUE)
-      case Question.GreenEyesQuestion => if (guessAbout.guessEyeColour("GREEN")) _gameCharacters.filter(_.eyeColour == EyeColour.GREEN) else _gameCharacters.filterNot(_.eyeColour == EyeColour.GREEN)
-      case Question.BrownEyesQuestion => if (guessAbout.guessEyeColour("BROWN")) _gameCharacters.filter(_.eyeColour == EyeColour.BROWN) else _gameCharacters.filterNot(_.eyeColour == EyeColour.BROWN)
-      case Question.BlondeHairQuestion => if (guessAbout.guessHairColour("BLONDE")) _gameCharacters.filter(_.hairColour == HairColour.BLONDE) else _gameCharacters.filterNot(_.hairColour == HairColour.BLONDE)
-      case Question.BrunetteHairQuestion => if (guessAbout.guessHairColour("BRUNETTE")) _gameCharacters.filter(_.hairColour == HairColour.BRUNETTE) else _gameCharacters.filterNot(_.hairColour == HairColour.BRUNETTE)
-      case Question.RedHairQuestion => if (guessAbout.guessHairColour("RED")) _gameCharacters.filter(_.hairColour == HairColour.RED) else _gameCharacters.filterNot(_.hairColour == HairColour.RED)
-      case Question.MaleGenderQuestion => if (guessAbout.guessGender("MALE")) _gameCharacters.filter(_.gender == Gender.MALE) else _gameCharacters.filterNot(_.gender == Gender.MALE)
-      case Question.FemaleGenderQuestion => if (guessAbout.guessGender("MALE")) _gameCharacters.filter(_.gender == Gender.FEMALE) else _gameCharacters.filterNot(_.gender == Gender.FEMALE)
+      case Question.BlueEyesQuestion => filterByEyeColour(EyeColour.BLUE)
+      case Question.GreenEyesQuestion => filterByEyeColour(EyeColour.GREEN)
+      case Question.BrownEyesQuestion => filterByEyeColour(EyeColour.BROWN)
+      case Question.BlondeHairQuestion => filterByHairColour(HairColour.BLONDE)
+      case Question.BrunetteHairQuestion => filterByHairColour(HairColour.BRUNETTE)
+      case Question.RedHairQuestion => filterByHairColour(HairColour.RED)
+      case Question.MaleGenderQuestion => filterByGender(Gender.MALE)
+      case Question.FemaleGenderQuestion => filterByGender(Gender.FEMALE)
       case Question.hasHairQuestion => if (guessAbout.guessHasHair) _gameCharacters.filter(_.hasHair) else _gameCharacters.filterNot(_.hasHair)
       case Question.hasGlassesQuestion => if (guessAbout.guessHasGlasses) _gameCharacters.filter(_.hasGlasses) else _gameCharacters.filterNot(_.hasGlasses)
       case Question.hasHatQuestion => if (guessAbout.guessHasHat) _gameCharacters.filter(_.hasHat) else _gameCharacters.filterNot(_.hasHat)
       case Question.hasFacialHairQuestion => if (guessAbout.guessHasFacialHair) _gameCharacters.filter(_.hasFacialHair) else _gameCharacters.filterNot(_.hasFacialHair)
       case _ => _gameCharacters
     }
-
   }
 
   // Guess name and return a tuple, if guessed name == chosen character name then set to true
