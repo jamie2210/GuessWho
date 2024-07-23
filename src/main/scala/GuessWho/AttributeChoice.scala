@@ -1,5 +1,5 @@
 package GuessWho
 
-class HintQuestion {
+class Choice {
 
 }

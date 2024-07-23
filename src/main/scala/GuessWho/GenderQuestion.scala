@@ -1,5 +1,0 @@
-package GuessWho
-
-class GenderQuestion {
-
-}
