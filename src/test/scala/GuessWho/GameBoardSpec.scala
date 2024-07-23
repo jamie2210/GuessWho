@@ -60,4 +60,30 @@ class GameBoardSpec extends AnyFlatSpec{
     assert(removedRandomCharacterList.length == characters.length-1)
   }
 
+  "filterByEyeColour" should
+    "filter out characters depending on eye colour" in {
+      //Blue
+      assert(testGame.filterByEyeColour(EyeColour.BLUE) == Seq(tom, jamie, vicky))
+      // GREEN
+      assert(testGame.filterByEyeColour(EyeColour.GREEN) == Seq(jamie, vicky, jane))
+      // BROWN
+      assert(testGame.filterByEyeColour(EyeColour.BROWN) == Seq(jamie, vicky))
+
+  }
+
+  "filterByHairColour" should
+  "filter out characters depending on hair colour" in {
+    // check for hair colour BRUNETTE )
+    assert(testGame.filterByHairColour(HairColour.BRUNETTE) == Seq(tom, jamie, vicky, jane))
+    // BLONDE
+    assert(testGame.filterByHairColour(HairColour.BLONDE) == Seq(tom,jamie))
+    // RED
+    assert(testGame.filterByHairColour(HairColour.RED) == Seq(tom,jamie, jane))
+  }
+
+  "filterByGender" should
+  "filter out characters depending on gender" in {
+    assert(testGame.filterByGender(Gender.MALE) == Seq(tom, jamie))
+    assert(testGame.filterByGender(Gender.FEMALE) == Seq(tom, jamie))
+  }
 }

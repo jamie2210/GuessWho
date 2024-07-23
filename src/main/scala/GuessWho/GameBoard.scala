@@ -56,7 +56,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     _gameCharacters
   }
 
-  private def filterByEyeColour(colour: EyeColour): Seq[Character] = {
+  def filterByEyeColour(colour: EyeColour): Seq[Character] = {
     if (guessAbout.guessEyeColour(colour)) {
       _recentUpdateMessage = s"Their eyes are $colour"
       _gameCharacters.filter(_.eyeColour == colour)
@@ -67,7 +67,7 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     }
   }
 
-  private def filterByHairColour(colour: HairColour): Seq[Character] = {
+  def filterByHairColour(colour: HairColour): Seq[Character] = {
     if (guessAbout.guessHairColour(colour)) {
       _recentUpdateMessage = s"They have $colour hair"
       _gameCharacters.filter(_.hairColour == colour)
@@ -78,13 +78,53 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
     }
   }
 
-  private def filterByGender(gender: Gender): Seq[Character] = {
+  def filterByGender(gender: Gender): Seq[Character] = {
     if (guessAbout.guessGender(gender)) {
       _recentUpdateMessage = s"They are $gender"
       _gameCharacters.filter(_.gender == gender)
     } else {
       _recentUpdateMessage = s"They are not $gender"
       _gameCharacters.filterNot(_.gender == gender)}
+  }
+
+  def filterByHasHair: Seq[Character] = {
+    if (guessAbout.guessHasHair) {
+      _recentUpdateMessage = "They have hair!!"
+      _gameCharacters.filter(_.hasHair)
+    } else {
+      _recentUpdateMessage = "They do not have hair!"
+      _gameCharacters.filterNot(_.hasHair)
+    }
+  }
+
+  def filterByHasGlasses: Seq[Character] = {
+    if (guessAbout.guessHasGlasses) {
+      _recentUpdateMessage = "They have glasses :)"
+      _gameCharacters.filter(_.hasGlasses)
+    } else {
+      _recentUpdateMessage = "They do not have glasses :("
+      _gameCharacters.filterNot(_.hasGlasses)
+    }
+  }
+
+  def filterByHasHat: Seq[Character] = {
+    if (guessAbout.guessHasHat) {
+      _recentUpdateMessage = "They are wearing a hat"
+      _gameCharacters.filter(_.hasHat)
+    } else {
+      _recentUpdateMessage = "They are not wearing a hat"
+      _gameCharacters.filterNot(_.hasHat)
+    }
+  }
+
+  def filterByHasFacialHair: Seq[Character] = {
+    if (guessAbout.guessHasFacialHair) {
+      _recentUpdateMessage = "They have facial hair"
+      _gameCharacters.filter(_.hasFacialHair)
+    } else {
+      _recentUpdateMessage = "They do not have facial hair"
+      _gameCharacters.filterNot(_.hasFacialHair)
+    }
   }
 
   //  Filter the characters depending on question
@@ -100,10 +140,10 @@ class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Charact
       case Question.RedHairQuestion => filterByHairColour(HairColour.RED)
       case Question.MaleGenderQuestion => filterByGender(Gender.MALE)
       case Question.FemaleGenderQuestion => filterByGender(Gender.FEMALE)
-      case Question.hasHairQuestion => if (guessAbout.guessHasHair) _gameCharacters.filter(_.hasHair) else _gameCharacters.filterNot(_.hasHair)
-      case Question.hasGlassesQuestion => if (guessAbout.guessHasGlasses) _gameCharacters.filter(_.hasGlasses) else _gameCharacters.filterNot(_.hasGlasses)
-      case Question.hasHatQuestion => if (guessAbout.guessHasHat) _gameCharacters.filter(_.hasHat) else _gameCharacters.filterNot(_.hasHat)
-      case Question.hasFacialHairQuestion => if (guessAbout.guessHasFacialHair) _gameCharacters.filter(_.hasFacialHair) else _gameCharacters.filterNot(_.hasFacialHair)
+      case Question.hasHairQuestion => filterByHasHair
+      case Question.hasGlassesQuestion => filterByHasGlasses
+      case Question.hasHatQuestion => filterByHasHat
+      case Question.hasFacialHairQuestion => filterByHasFacialHair
       case _ => _gameCharacters
     }
   }
