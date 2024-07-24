@@ -11,6 +11,8 @@ package GuessWho
 
 class Guess (character:Character){
 
+//  Return value of boolean params
+
   def guessHasHair: Boolean = {
     character.hasHair
   }
@@ -24,32 +26,34 @@ class Guess (character:Character){
     character.hasHat
   }
 
-  def guessGender(guess:String): Boolean = {
-    guess.toLowerCase() match {
-      case "male" => (character.gender == Gender.MALE)
-      case "female" => (character.gender == Gender.FEMALE)
-      case _ => false
+//  Return true if gender of chosen character is equal to the guess
+  def guessGender(gender: Gender): Boolean = {
+    gender match {
+      case Gender.MALE => character.gender == Gender.MALE
+      case Gender.FEMALE => character.gender == Gender.FEMALE
     }
   }
 
-  def guessEyeColour(guess:String): Boolean = {
-    guess.toLowerCase() match {
-      case "green" => (character.eyeColour == EyeColour.GREEN)
-      case "blue" => (character.eyeColour == EyeColour.BLUE)
-      case "brown" => (character.eyeColour == EyeColour.BROWN)
-      case _ => false
+//  Return true if eye colour of chosen character is equal to the guessed colour
+  def guessEyeColour(eyeColour: EyeColour): Boolean = {
+    eyeColour match {
+      case EyeColour.BLUE => character.eyeColour == EyeColour.BLUE
+      case EyeColour.GREEN => character.eyeColour == EyeColour.GREEN
+      case EyeColour.BROWN => character.eyeColour == EyeColour.BROWN
     }
   }
 
-  def guessHairColour(guess:String): Boolean = {
-    guess.toLowerCase() match {
-      case "blonde" => (character.hairColour == HairColour.BLONDE)
-      case "red" => (character.hairColour == HairColour.RED)
-      case "brunette" => (character.hairColour == HairColour.BRUNETTE)
-      case _ => false
+  //  Return true if hair colour of chosen character is equal to the guessed colour
+  def guessHairColour(hairColour: HairColour): Boolean = {
+    hairColour match {
+      case HairColour.BLONDE => character.hairColour == HairColour.BLONDE
+      case HairColour.BRUNETTE => character.hairColour == HairColour.BRUNETTE
+      case HairColour.RED => character.hairColour == HairColour.RED
+      case HairColour.NONE => character.hairColour == HairColour.NONE
     }
   }
 
+  //  Return true if the name of chosen character is equal to the guessed name
   def guessName(guess: String): Boolean = {
     guess.toLowerCase() == character.name.toLowerCase()
   }
