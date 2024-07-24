@@ -5,54 +5,161 @@ import scala.util.Random
 
 class GameBoard(characters:Seq[Character], defaultChosenCharacter:Option[Character]) {
 
-//  Chose random player index
-  private val randomIndex:Int = Random.nextInt(characters.length)
 
-//  For testing, use default chosen character if set
-  private val chosenCharacter:Character = defaultChosenCharacter match {
+  //  Chose random player index
+  private val randomIndex: Int = Random.nextInt(characters.length)
+
+  //  Var to keep track of Hints
+  private var _recentUpdateMessage: String = ""
+
+  //  For testing, use default chosen character if set else use randomly chosen
+  private val chosenCharacter: Character = defaultChosenCharacter match {
     case Some(character) => character
     case None => characters(randomIndex)
   }
 
+  //  Store new guess instance to guess about the chosen character
+  private val guessAbout: Guess = new Guess(chosenCharacter)
 
-  private val guessAbout:Guess = new Guess(chosenCharacter)
-
-//  keep track of remaining players
-  private var _remainingPlayers:Seq[Character] = characters
-
-//  Implement filtering process depending on question
-  def makeGuess(question:String){???}
-
-  def getRemainingCharacters:Seq[Character] = _remainingPlayers
+  //  Store list of players 
+  private val _gameCharacters: Seq[Character] = characters
 
 
-  def getChosenPlayer:Character = chosenCharacter
+  //  Get methods for GuessWho Object to access
+  def getRemainingCharacters: Seq[Character] = _gameCharacters
 
-  def filterRemaining(attribute:Int):Seq[Character]={
-    attribute match {
-      // Boolean params
-      case 1 => if(guessAbout.guessHasHair) _remainingPlayers.filter(_.hasHair) else _remainingPlayers.filterNot(_.hasHair)
-      case 2 => if(guessAbout.guessHasFacialHair) _remainingPlayers.filter(_.hasFacialHair) else _remainingPlayers.filterNot(_.hasFacialHair)
-      case 3 => if(guessAbout.guessHasGlasses) _remainingPlayers.filter(_.hasGlasses) else _remainingPlayers.filterNot(_.hasGlasses)
-      case 4 => if(guessAbout.guessHasHat) _remainingPlayers.filter(_.hasHat) else _remainingPlayers.filterNot(_.hasHat)
-      // Gender params
-      case 5 => if(guessAbout.guessGender("MALE")) _remainingPlayers.filter(_.gender == Gender.MALE) else _remainingPlayers.filterNot(_.gender == Gender.MALE)
-      // Eye Colour params
-      case 6 => if(guessAbout.guessEyeColour("BLUE")) _remainingPlayers.filter(_.eyeColour == EyeColour.BLUE) else _remainingPlayers.filterNot(_.eyeColour == EyeColour.BLUE)
-      case 7 => if(guessAbout.guessEyeColour("GREEN")) _remainingPlayers.filter(_.eyeColour == EyeColour.GREEN) else _remainingPlayers.filterNot(_.eyeColour == EyeColour.GREEN)
-      case 8 => if(guessAbout.guessEyeColour("BROWN")) _remainingPlayers.filter(_.eyeColour == EyeColour.BROWN) else _remainingPlayers.filterNot(_.eyeColour == EyeColour.BROWN)
-      // Hair Colour params
-      case 9 => if(guessAbout.guessHairColour("BRUNETTE")) _remainingPlayers.filter(_.hairColour == HairColour.BRUNETTE) else _remainingPlayers.filterNot(_.hairColour == HairColour.BRUNETTE)
-      case 10 => if(guessAbout.guessHairColour("BLONDE")) _remainingPlayers.filter(_.hairColour == HairColour.BLONDE) else _remainingPlayers.filterNot(_.hairColour == HairColour.BLONDE)
-      case 11 => if(guessAbout.guessHairColour("RED")) _remainingPlayers.filter(_.hairColour == HairColour.RED) else _remainingPlayers.filterNot(_.hairColour == HairColour.RED)
-      case _ => _remainingPlayers
+  def get_update_message(): String = _recentUpdateMessage
+
+  //  Method to allow GuessWho object to reset update message
+  def reset_update_message(): String = {
+    _recentUpdateMessage = ""
+    _recentUpdateMessage
+  }
+
+  //  For Hint 1: Removes random character that is not the chosen player
+  def remove_random_character(): Seq[Character] = {
+    if (_gameCharacters.length < 2) {
+      _gameCharacters
+    } else {
+      val notChosenPlayers: Seq[Character] = _gameCharacters.filterNot(_ == chosenCharacter)
+      val random_indexInt: Int = Random.nextInt(notChosenPlayers.length)
+      val playerToRemove: Character = notChosenPlayers(random_indexInt)
+      _recentUpdateMessage = s"Hint: It's not ${playerToRemove.name}"
+      _gameCharacters.filterNot(_ == notChosenPlayers(random_indexInt))
     }
   }
-  // Guess name
-  def filterRemaining(attribute:Int, guess:String):Seq[Character]= {
-    attribute match {
-      case 12 => if (guessAbout.guessName(guess)) Seq(chosenCharacter) else _remainingPlayers.filterNot(_.name.toLowerCase == guess.toLowerCase())
-      case _ => _remainingPlayers
+
+  //  Hint 2: Displays a rando letter from chosen characters name
+  def display_random_letter(): Seq[Character] = {
+    val random_indexInt: Int = Random.nextInt(chosenCharacter.name.length)
+    _recentUpdateMessage = s"Hint: Name contains the letter '${chosenCharacter.name.toLowerCase.charAt(random_indexInt)}' "
+    _gameCharacters
+  }
+
+  def filterByEyeColour(colour: EyeColour): Seq[Character] = {
+    if (guessAbout.guessEyeColour(colour)) {
+      _recentUpdateMessage = s"Their eyes are $colour"
+      _gameCharacters.filter(_.eyeColour == colour)
+    }
+    else {
+      _recentUpdateMessage = s"Their eyes are not $colour"
+      _gameCharacters.filterNot(_.eyeColour == colour)
+    }
+  }
+
+  def filterByHairColour(colour: HairColour): Seq[Character] = {
+    if (guessAbout.guessHairColour(colour)) {
+      _recentUpdateMessage = s"They have $colour hair"
+      _gameCharacters.filter(_.hairColour == colour)
+    }
+    else {
+      _recentUpdateMessage = s"They do not have $colour hair"
+      _gameCharacters.filterNot(_.hairColour == colour)
+    }
+  }
+
+  def filterByGender(gender: Gender): Seq[Character] = {
+    if (guessAbout.guessGender(gender)) {
+      _recentUpdateMessage = s"They are $gender"
+      _gameCharacters.filter(_.gender == gender)
+    } else {
+      _recentUpdateMessage = s"They are not $gender"
+      _gameCharacters.filterNot(_.gender == gender)}
+  }
+
+  def filterByHasHair: Seq[Character] = {
+    if (guessAbout.guessHasHair) {
+      _recentUpdateMessage = "They have hair!!"
+      _gameCharacters.filter(_.hasHair)
+    } else {
+      _recentUpdateMessage = "They do not have hair!"
+      _gameCharacters.filterNot(_.hasHair)
+    }
+  }
+
+  def filterByHasGlasses: Seq[Character] = {
+    if (guessAbout.guessHasGlasses) {
+      _recentUpdateMessage = "They have glasses :)"
+      _gameCharacters.filter(_.hasGlasses)
+    } else {
+      _recentUpdateMessage = "They do not have glasses :("
+      _gameCharacters.filterNot(_.hasGlasses)
+    }
+  }
+
+  def filterByHasHat: Seq[Character] = {
+    if (guessAbout.guessHasHat) {
+      _recentUpdateMessage = "They are wearing a hat"
+      _gameCharacters.filter(_.hasHat)
+    } else {
+      _recentUpdateMessage = "They are not wearing a hat"
+      _gameCharacters.filterNot(_.hasHat)
+    }
+  }
+
+  def filterByHasFacialHair: Seq[Character] = {
+    if (guessAbout.guessHasFacialHair) {
+      _recentUpdateMessage = "They have facial hair"
+      _gameCharacters.filter(_.hasFacialHair)
+    } else {
+      _recentUpdateMessage = "They do not have facial hair"
+      _gameCharacters.filterNot(_.hasFacialHair)
+    }
+  }
+
+  //  Filter the characters depending on question
+  def filterRemaining(question: Question): Seq[Character] = {
+    question match {
+      case Question.RemoveCharacterHint => remove_random_character()
+      case Question.LetterFromNameHint => display_random_letter()
+      case Question.BlueEyesQuestion => filterByEyeColour(EyeColour.BLUE)
+      case Question.GreenEyesQuestion => filterByEyeColour(EyeColour.GREEN)
+      case Question.BrownEyesQuestion => filterByEyeColour(EyeColour.BROWN)
+      case Question.BlondeHairQuestion => filterByHairColour(HairColour.BLONDE)
+      case Question.BrunetteHairQuestion => filterByHairColour(HairColour.BRUNETTE)
+      case Question.RedHairQuestion => filterByHairColour(HairColour.RED)
+      case Question.MaleGenderQuestion => filterByGender(Gender.MALE)
+      case Question.FemaleGenderQuestion => filterByGender(Gender.FEMALE)
+      case Question.hasHairQuestion => filterByHasHair
+      case Question.hasGlassesQuestion => filterByHasGlasses
+      case Question.hasHatQuestion => filterByHasHat
+      case Question.hasFacialHairQuestion => filterByHasFacialHair
+      case _ => _gameCharacters
+    }
+  }
+
+  // Guess name and return a tuple, if guessed name == chosen character name then set to true
+  // Second part of tuple is unpacked and used to declare winner
+  def filterRemaining(guess: String): (Seq[Character], Boolean) = {
+    if (guessAbout.guessName(guess)) (Seq(chosenCharacter), true) else {
+      val afterFilterByName = _gameCharacters.filterNot(_.name.toLowerCase == guess.toLowerCase())
+      if (afterFilterByName.length == 10) {
+        _recentUpdateMessage = s"That name is not recognised...?"
+        (afterFilterByName, false)
+      } else {
+        _recentUpdateMessage = s"It's not $guess"
+        (afterFilterByName, false)
+      }
     }
   }
 }
